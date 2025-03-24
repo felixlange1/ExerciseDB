@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ArrayAndListQuiz" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ArraysAndListsProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../BankEncapsulation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../CarLotSimulator" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ChristmasWithTypes" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Classes-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../CollectionsMasterApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../InheritanceExercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Iteration-Statements-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../IterationStatementsProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../MergeConflictExercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Method-Overloading-Exercise-" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../MethodsCreation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../MethodsExercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Operators-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PizzaAlgo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Selection-Statement-Exercise-2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Selection-Statements-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Static-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Syntax-and-Syntax-Sugar-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Variables-Exercise" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../WeeklyChallenges" vcs="Git" />
+  </component>
+</project>
