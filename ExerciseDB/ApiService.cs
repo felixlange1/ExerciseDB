@@ -3,12 +3,17 @@ using System.Net.Http.Headers;
 public class ApiService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey = "5b4171f559mshe11682bfa322384p12d97ajsne55dff0edab7";
-    private readonly string _baseUrl = "https://exercisedb.p.rapidapi.com/exercises";
-    private readonly string _apiHost = "exercisedb.p.rapidapi.com";
-    public ApiService(HttpClient httpClient)
+    private readonly string _apiKey;
+    private readonly string _baseUrl;
+    private readonly string _apiHost;
+    public ApiService(HttpClient httpClient, IConfiguration config)
     {
         _httpClient = httpClient;
+        
+        _apiKey = config["RapidAPI:Key"];
+        _apiHost = config["RapidAPI:Host"];
+        _baseUrl = config["RapidAPI:BaseUrl"];
+        
         _httpClient.DefaultRequestHeaders.Add("x-rapidapi-key", _apiKey);
         _httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", _apiHost);
     }
