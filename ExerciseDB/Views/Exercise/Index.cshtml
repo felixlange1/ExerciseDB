@@ -1,0 +1,23 @@
+@model IEnumerable<Exercise>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Exercises</title>
+</head>
+<body>
+<h2>Search for an Exercise</h2>
+
+<div>
+    <form method="get" aaction="@Url.Action("Index", "Exercise") "asp-controller="Exercise" asp-action="Index">
+        <input type="text" name="searchTerm" placeholder="Search for exercises" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+</body>
+</html>

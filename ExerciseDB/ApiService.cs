@@ -1,3 +1,6 @@
+using System.Text.Json;
+using ExerciseDB.Models;
+
 namespace ExerciseDB;
 using System.Net.Http.Headers;
 public class ApiService
@@ -26,6 +29,14 @@ public class ApiService
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
     }
+
+
+    public async Task<string> SearchExercisesAsync(string searchTerm)
+    {
+            var requestUri = $"{_baseUrl}/name/{searchTerm}?offset=0&limit=10";
+            return await _httpClient.GetStringAsync(requestUri);
+    }
+    
 }
 
 

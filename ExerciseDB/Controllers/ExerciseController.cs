@@ -1,4 +1,7 @@
+using System.Collections;
+using ExerciseDB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ExerciseDB.Controllers;
 
@@ -11,9 +14,15 @@ public class ExerciseController : Controller
         _apiService = apiService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchTerm)
     {
-        var exercises = await _apiService.GetExercisesAsync();
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return View();
+        }
+        
+        var jsonResponse= await _apiService.SearchExercisesAsync(searchTerm);
+        var exercises = JsonConvert.DeserializeObject<List<Exercise>>(jsonResponse);
         return View(exercises);
     }
     
