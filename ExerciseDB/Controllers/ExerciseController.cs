@@ -14,6 +14,8 @@ public class ExerciseController : Controller
         _apiService = apiService;
     }
 
+
+    
     public async Task<IActionResult> Index(string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
@@ -22,6 +24,8 @@ public class ExerciseController : Controller
         }
         
         var jsonResponse= await _apiService.SearchExercisesAsync(searchTerm);
+        Console.WriteLine($"API Response: {jsonResponse}");
+        
         var exercises = JsonConvert.DeserializeObject<List<Exercise>>(jsonResponse);
         return View(exercises);
     }

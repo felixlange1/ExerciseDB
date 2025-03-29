@@ -1,8 +1,8 @@
-@model IEnumerable<Exercise>
 
-@{
-    Layout = null;
-}
+
+@* @{ *@
+@*     Layout = null; *@
+@* } *@
 
 <!DOCTYPE html>
 
@@ -10,6 +10,9 @@
 <head>
     <title>Exercises</title>
 </head>
+
+@model IEnumerable<Exercise>
+
 <body>
 <h2>Search for an Exercise</h2>
 
@@ -19,5 +22,30 @@
         <button type="submit">Search</button>
     </form>
 </div>
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var exercise in Model)
+        {
+            <h3>@exercise.Name</h3>
+            <p><strong>Body Part: @exercise.BodyPart </strong></p>
+            <p><strong>Target Muscle: @exercise.Target </strong></p>
+            <p>Equipment Used: @exercise.Equipment</p>
+            <img src="@exercise.GifUrl" alt="@exercise.Name" width="200" height="200">
+            
+            <h4>Instructions:</h4>
+            <ul>
+                @foreach (var step in exercise.Instructions)
+                {
+                    <li>@step</li>
+                }
+            </ul>
+        }
+    </ul>
+}
+else
+{
+    <p>No exercises found.</p>
+}
 </body>
 </html>

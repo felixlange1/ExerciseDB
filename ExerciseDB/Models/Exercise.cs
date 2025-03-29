@@ -7,5 +7,6 @@ public class Exercise
     public string BodyPart { get; set; }
     public string Equipment { get; set; }
     public string Target { get; set; }
-    public string Instructions { get; set; }
+    public string GifUrl { get; set; }
+    public List<string> Instructions { get; set; }
 }
