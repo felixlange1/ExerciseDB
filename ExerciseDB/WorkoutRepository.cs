@@ -22,6 +22,7 @@ public class WorkoutRepository : IWorkoutRepository
         {
             throw new Exception("Workout not found");
         }
+        Console.WriteLine($"Retrieved Date: {workout?.WorkoutDate}");
         return workout;
     }
 
@@ -32,7 +33,7 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void UpdateWorkout(Workout workout)
     {
-        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE Id = @Id", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.Date, Notes = workout.Notes});
+        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE Id = @Id", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes});
     }
 
     public void CreateWorkout(Workout workout)
@@ -41,7 +42,7 @@ public class WorkoutRepository : IWorkoutRepository
             "INSERT INTO workouts (ExerciseName, Sets, Reps, WorkoutDate, Notes) VALUES (@exerciseName, @sets, @reps, @workoutdate, @notes);",
             new
             {
-                exerciseName = workout.ExerciseName, sets = workout.Sets, reps = workout.Reps, workoutdate = workout.Date, notes = workout.Notes
+                exerciseName = workout.ExerciseName, sets = workout.Sets, reps = workout.Reps, workoutdate = workout.WorkoutDate, notes = workout.Notes
             });
     }
 

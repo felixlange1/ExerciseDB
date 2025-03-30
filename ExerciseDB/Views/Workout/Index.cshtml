@@ -8,7 +8,7 @@
     <title>Workouts</title>
 </head>
 <body>
-<h1>Previous Workouts</h1>
+<h1>All Workouts</h1>
 <div style="display: block">
     <a href="/Workout/CreateWorkout/">Add Workout</a>
 </div>
@@ -27,11 +27,13 @@
         {
             <tr>
                 <td><a href=/Workout/ViewWorkout/@workout.Id>@workout.Id</a></td>
-                <td>@workout.Date</td>
+                <td>@workout.WorkoutDate.ToString("yyyy-MM-dd")</td>
                 <td>@workout.ExerciseName</td>
                 <td>@workout.Sets</td>
                 <td>@workout.Reps</td>
                 <td>@workout.Notes</td>
+                <td><a href=/Workout/UpdateProduct/@workout.Id>Edit</a></td>
+                <td>Delete</td>
             </tr>
         }
         
