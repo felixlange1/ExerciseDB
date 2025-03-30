@@ -1,0 +1,33 @@
+@model Workout
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Workouts</title>
+</head>
+<body>
+<h2>Workouts</h2>
+<div>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Exercise Name</th>
+            <th>Sets</th>
+            <th>Reps</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.Date</td>
+            <td>@Model.ExerciseName</td>
+            <td>@Model.Sets</td>
+            <td>@Model.Reps</td>
+            <td>@Model.Notes</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

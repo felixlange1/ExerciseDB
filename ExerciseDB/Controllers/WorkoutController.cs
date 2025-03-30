@@ -44,10 +44,14 @@ public class WorkoutController : Controller
         return RedirectToAction("ViewWorkout", new { id = workout.Id });
     }
 
+    public IActionResult CreateWorkout()
+    {
+        return View();
+    }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
         repo.CreateWorkout(workoutToCreate);
-        return RedirectToAction("ViewWorkout", new { id = workoutToCreate.Id });
+        return RedirectToAction("Index");
     }
 
     public IActionResult DeleteWorkout(Workout workoutToDelete)

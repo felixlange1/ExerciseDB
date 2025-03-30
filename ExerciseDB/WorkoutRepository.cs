@@ -12,10 +12,17 @@ public class WorkoutRepository : IWorkoutRepository
     {
         _connection = connection;
     }
+
     
     public Workout GetWorkout(int id)
     {
-        return _connection.QuerySingle<Workout>("SELECT * FROM Workouts WHERE Id = @id", new { id = id });
+        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE Id = @id", new { id = id });
+
+        if (workout == null)
+        {
+            throw new Exception("Workout not found");
+        }
+        return workout;
     }
 
     public IEnumerable<Workout> GetAllWorkouts()
@@ -31,10 +38,10 @@ public class WorkoutRepository : IWorkoutRepository
     public void CreateWorkout(Workout workout)
     {
         _connection.Execute(
-            "INSERT INTO workouts (Name, Sets, Reps, WorkoutDate, Notes) VALUES (@name, @sets, @reps, @workoutdate, @notes);",
+            "INSERT INTO workouts (ExerciseName, Sets, Reps, WorkoutDate, Notes) VALUES (@exerciseName, @sets, @reps, @workoutdate, @notes);",
             new
             {
-                name = workout.ExerciseName, sets = workout.Sets, reps = workout.Reps, workoutdate = workout.Date, notes = workout.Notes
+                exerciseName = workout.ExerciseName, sets = workout.Sets, reps = workout.Reps, workoutdate = workout.Date, notes = workout.Notes
             });
     }
 

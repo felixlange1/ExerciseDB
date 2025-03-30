@@ -1,0 +1,41 @@
+@model IEnumerable<Workout>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Workouts</title>
+</head>
+<body>
+<h1>Previous Workouts</h1>
+<div style="display: block">
+    <a href="/Workout/CreateWorkout/">Add Workout</a>
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Exercise Name</th>
+            <th>Sets</th>
+            <th>Reps</th>
+            <th>Notes</th>
+        </tr>
+        
+        @foreach (var workout in @Model)
+        {
+            <tr>
+                <td><a href=/Workout/ViewWorkout/@workout.Id>@workout.Id</a></td>
+                <td>@workout.Date</td>
+                <td>@workout.ExerciseName</td>
+                <td>@workout.Sets</td>
+                <td>@workout.Reps</td>
+                <td>@workout.Notes</td>
+            </tr>
+        }
+        
+    </table>
+</div>
+</body>
+</html>

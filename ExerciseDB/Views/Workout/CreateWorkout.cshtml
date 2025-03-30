@@ -1,0 +1,36 @@
+@model Workout
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Add a New Workout</title>
+</head>
+<body>
+<h2>Add a Workout</h2>
+<div>
+    @using (Html.BeginForm("CreateWorkoutToDatabase", "Workout", "Post"))
+    {
+        <input asp-for="Id" type="hidden" value="" />
+    
+        <label asp-for="Date" class="control-label">Date</label>
+        <input asp-for="Date" type="date" name="Date" id="date" class="form-control" />
+    
+        <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+        <input asp-for="ExerciseName" type="text" name="ExerciseName" class="form-control" value="" />
+    
+        <label asp-for="Sets" class="control-label">Sets</label>
+        <input asp-for="Sets" type="number" step="1" name="Sets" class="form-control" />
+    
+        <label asp-for="Reps" class="control-label">Reps</label>
+        <input asp-for="Reps" type="number" step="1" name="Reps" class="form-control" />
+    
+        <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..."></textarea>
+    
+        <input type="submit" value="Add Workout" class="btn btn-primary" />
+    }
+
+</div>
+
+</body>
+</html>
