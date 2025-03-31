@@ -1,0 +1,33 @@
+@model Workout
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Update Workout</title>
+</head>
+<body>
+<div>
+      @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
+      {
+          <input asp-for="Id" type="hidden" value="@Model.Id" />
+
+        <label asp-for="WorkoutDate" class="control-label">Date</label>
+        <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" value="@Model.WorkoutDate.ToString("yyyy-MM-dd")" />
+
+        <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+        <input asp-for="ExerciseName" type="text" name="ExerciseName" class="form-control" value="@Model.ExerciseName" />
+
+        <label asp-for="Sets" class="control-label">Sets</label>
+        <input asp-for="Sets" type="number" step="1" name="Sets" class="form-control" value="@Model.Sets" />
+
+        <label asp-for="Reps" class="control-label">Reps</label>
+        <input asp-for="Reps" type="number" step="1" name="Reps" class="form-control" value="@Model.Reps" />
+
+        <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>
+
+        <input type="submit" value="Update" class="btn btn-primary" />
+      }
+</div>
+</body>
+</html>

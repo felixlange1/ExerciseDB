@@ -33,7 +33,7 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void UpdateWorkout(Workout workout)
     {
-        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE Id = @Id", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes});
+        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE Id = @Id", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes, Id = workout.Id });
     }
 
     public void CreateWorkout(Workout workout)
