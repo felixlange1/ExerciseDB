@@ -44,8 +44,9 @@ public class WorkoutController : Controller
         return RedirectToAction("ViewWorkout", new { id = workout.Id });
     }
 
-    public IActionResult CreateWorkout()
+    public IActionResult CreateWorkout(string exerciseName)
     {
+        ViewBag.ExerciseName = exerciseName;
         return View();
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
