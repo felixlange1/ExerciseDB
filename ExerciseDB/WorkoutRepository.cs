@@ -14,9 +14,9 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
-    public Workout GetWorkout(int id)
+    public Workout GetWorkout(int workoutId)
     {
-        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE Id = @id", new { id = id });
+        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = workoutId });
 
         if (workout == null)
         {
@@ -33,7 +33,7 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void UpdateWorkout(Workout workout)
     {
-        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE Id = @Id", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes, Id = workout.Id });
+        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes, WorkoutId = workout.WorkoutId });
     }
 
     public void CreateWorkout(Workout workout)
@@ -48,6 +48,6 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void DeleteWorkout(Workout workout)
     {
-        _connection.Execute("DELETE FROM Workouts WHERE Id = @id;", new { id = workout.Id });
+        _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = workout.WorkoutId });
     }
 }

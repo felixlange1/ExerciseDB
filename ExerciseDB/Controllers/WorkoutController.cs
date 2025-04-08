@@ -41,7 +41,7 @@ public class WorkoutController : Controller
     {
         repo.UpdateWorkout(workout);
         
-        return RedirectToAction("ViewWorkout", new { id = workout.Id });
+        return RedirectToAction("ViewWorkout", new { workoutId = workout.WorkoutId });
     }
 
     public IActionResult CreateWorkout(string exerciseName)

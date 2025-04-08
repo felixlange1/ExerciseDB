@@ -10,7 +10,7 @@
 <div>
       @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
       {
-          <input asp-for="Id" type="hidden" value="@Model.Id" />
+          <input asp-for="WorkoutId" type="hidden" value="@Model.WorkoutId" />
 
         <label asp-for="WorkoutDate" class="control-label">Date</label>
         <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" value="@Model.WorkoutDate.ToString("yyyy-MM-dd")" />
