@@ -27,9 +27,11 @@
         
         <h3>Workout Sets</h3>
         <div id="sets-container">
-            <div class="set-entry">
+            
                 @for (int i = 1; i <= Model.NumberOfSets; i++)
+              
                 {
+                 <div id="set-template">
                     <h4>Set @i</h4>
                     <input type="hidden" name="WorkoutSets[@i].SetNumber" value="@i" class="form-control"/>
 
@@ -38,11 +40,12 @@
 
                     <label>Weight</label>
                     <input type="number" name="WorkoutSets[@i].Weight" class="form-control"/>
+                 </div>
                 }
-            </div>
+            
         </div>
 
-        <button type="button" id="add-set-button" class="btn btn-secondary">Add Set</button>
+        <button type="button" id="add-set-btn" class="btn btn-secondary">Add Set</button>
     
         <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..."></textarea>
     
@@ -50,6 +53,6 @@
     }
 
 </div>
-
+<script src="~/js/createWorkout.js"></script>
 </body>
 </html>

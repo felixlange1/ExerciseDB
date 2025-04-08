@@ -14,33 +14,51 @@
 </div>
 <div>
     <table class="table">
+        <thead>
         <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Exercise Name</th>
-            <th>Sets</th>
-            <th>Reps</th>
+            <th rowspan="2">ID</th>
+            <th rowspan="2">Date</th>
+            <th rowspan="2">Exercise Name</th>
+            @for (int i = 1; i <= Model.First().Sets.Count; i++)
+            {
+                <th colspan="2">Set @i</th>
+            }
+
             <th>Notes</th>
         </tr>
-        
+        <tr>
+            @for (int i = 1; i <= Model.First().Sets.Count; i++)
+            {
+                <th colspan="2">Weight</th>
+                <th colspan="2">Reps</th>
+            }
+        </tr>
+        </thead>
         @foreach (var workout in @Model)
         {
             <tr>
                 <td><a href=/Workout/ViewWorkout/@workout.WorkoutId>@workout.WorkoutId</a></td>
                 <td>@workout.WorkoutDate.ToString("yyyy-MM-dd")</td>
                 <td>@workout.ExerciseName</td>
-                <td>@workout.Sets</td>
-                <td>@workout.Reps</td>
+                
+                    @foreach (var set in workout.Sets)
+                    {
+                        <td>@set.Weight</td>
+                        <td>@set.Reps</td>
+                    }
+                
                 <td>@workout.Notes</td>
                 <td><a href=/Workout/UpdateWorkout/@workout.WorkoutId>Edit</a></td>
-                <td>@using (Html.BeginForm("DeleteWorkout", "Workout", FormMethod.Post))
+                <td>
+                    @using (Html.BeginForm("DeleteWorkout", "Workout", FormMethod.Post))
                     {
-                        <input type="hidden" name="Id" value="@workout.WorkoutId" />
-                        <input type="submit" onclick="return confirm('Are you sure you want to delete this workout?')" value="Delete" />
-                    }</td>
+                        <input type="hidden" name="Id" value="@workout.WorkoutId"/>
+                        <input type="submit" onclick="return confirm('Are you sure you want to delete this workout?')" value="Delete"/>
+                    }
+                </td>
             </tr>
         }
-        
+
     </table>
 </div>
 </body>
