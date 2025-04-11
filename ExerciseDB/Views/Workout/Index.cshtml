@@ -1,5 +1,8 @@
 @model IEnumerable<Workout>
 
+@{
+    var maxSets = Model.Any() ? Model.Max(m => m.Sets.Count) : 0;
+}
 
 <!DOCTYPE html>
 
@@ -19,7 +22,8 @@
             <th rowspan="2">ID</th>
             <th rowspan="2">Date</th>
             <th rowspan="2">Exercise Name</th>
-            @for (int i = 1; i <= Model.First().Sets.Count; i++)
+            
+            @for (int i = 1; i <= maxSets; i++)
             {
                 <th colspan="2">Set @i</th>
             }
@@ -27,11 +31,15 @@
             <th>Notes</th>
         </tr>
         <tr>
-            @for (int i = 1; i <= Model.First().Sets.Count; i++)
+            <th></th>
+            <th></th>
+            <th></th>
+            @for (int i = 1; i <= maxSets; i++)
             {
                 <th colspan="2">Weight</th>
                 <th colspan="2">Reps</th>
             }
+            <th></th>
         </tr>
         </thead>
         @foreach (var workout in @Model)

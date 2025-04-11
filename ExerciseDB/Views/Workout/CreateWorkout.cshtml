@@ -25,7 +25,7 @@
         @* <label asp-for="Reps" class="control-label">Reps</label> *@
         @* <input asp-for="Reps" type="number" step="1" name="Reps" class="form-control" /> *@
         
-        <h3>Workout Sets</h3>
+        <h3>Sets</h3>
         <div id="sets-container">
             
                 @for (int i = 1; i <= Model.NumberOfSets; i++)
@@ -33,13 +33,13 @@
                 {
                  <div id="set-template">
                     <h4>Set @i</h4>
-                    <input type="hidden" name="WorkoutSets[@i].SetNumber" value="@i" class="form-control"/>
+                    <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
 
                     <label>Reps</label>
-                    <input type="number" name="WorkoutSets[@i].Reps" class="form-control"/>
+                    <input type="number" name="Sets[@i].Reps" class="form-control"/>
 
                     <label>Weight</label>
-                    <input type="number" name="WorkoutSets[@i].Weight" class="form-control"/>
+                    <input type="number" name="Sets[@i].Weight" class="form-control"/>
                  </div>
                 }
             

@@ -33,17 +33,47 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void UpdateWorkout(Workout workout)
     {
-        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, Sets = @Sets, Reps = @Reps, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", new { ExerciseName = workout.ExerciseName, Sets = workout.Sets, Reps = workout.Reps, workoutDate = workout.WorkoutDate, Notes = workout.Notes, WorkoutId = workout.WorkoutId });
+        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", 
+            new
+            {
+                ExerciseName = workout.ExerciseName,
+                workoutDate = workout.WorkoutDate,
+                Notes = workout.Notes,
+                WorkoutId = workout.WorkoutId
+            });
+        foreach (var set in workout.Sets)
+        {
+            _connection.Execute("UPDATE workout_sets SET SetNumber = @Setnumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
+                new
+                {
+                    SetNumber = set.SetNumber,
+                    Weight = set.Weight,
+                    Reps = set.Reps,
+                    setId = set.SetId,
+                    WorkoutId = workout.WorkoutId
+                });
+        }
     }
 
     public void CreateWorkout(Workout workout)
     {
         _connection.Execute(
-            "INSERT INTO workouts (ExerciseName, Sets, Reps, WorkoutDate, Notes) VALUES (@exerciseName, @sets, @reps, @workoutdate, @notes);",
+            "INSERT INTO workouts (ExerciseName, WorkoutDate, Notes) VALUES (@exerciseName, @workoutdate, @notes);",
             new
             {
-                exerciseName = workout.ExerciseName, sets = workout.Sets, reps = workout.Reps, workoutdate = workout.WorkoutDate, notes = workout.Notes
+                exerciseName = workout.ExerciseName, sets = workout.Sets, workoutdate = workout.WorkoutDate, notes = workout.Notes
             });
+        
+        int workoutId = _connection.QuerySingle<int>("SELECT LAST_INSERT_ID()");
+
+        foreach (var set in workout.Sets)
+        {
+            _connection.Execute("INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) VALUES (@WorkoutID, @SetNumber, @Weight, @Reps);",
+            new
+            {
+                WorkoutID = workoutId, setNumber = set.SetNumber, weight = set.Weight, reps = set.Reps
+            });
+        }
     }
 
     public void DeleteWorkout(Workout workout)
