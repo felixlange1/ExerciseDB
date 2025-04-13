@@ -93,5 +93,6 @@ public class WorkoutRepository : IWorkoutRepository
     public void DeleteWorkout(Workout workout)
     {
         _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = workout.WorkoutId });
+        _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = workout.WorkoutId });
     }
 }
