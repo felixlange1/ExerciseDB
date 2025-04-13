@@ -39,18 +39,20 @@ public class WorkoutController : Controller
 
     public IActionResult UpdateWorkoutToDatabase(Workout workout)
     {
+        workout.NumberOfSets = workout.Sets.Count;
         repo.UpdateWorkout(workout);
-        
         return RedirectToAction("ViewWorkout", new { workoutId = workout.WorkoutId });
     }
 
     public IActionResult CreateWorkout(string exerciseName)
     {
+        
         ViewBag.ExerciseName = exerciseName;
         return View();
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
+        workoutToCreate.NumberOfSets = workoutToCreate.Sets.Count;
         repo.CreateWorkout(workoutToCreate);
         return RedirectToAction("Index");
     }

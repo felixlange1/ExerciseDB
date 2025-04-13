@@ -18,29 +18,24 @@
     
         <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
         <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" class="form-control" />
-    
-        @* <label asp-for="Sets" class="control-label">Sets</label> *@
-        @* <input asp-for="Sets" type="number" step="1" name="Sets" class="form-control" /> *@
-        @* *@
-        @* <label asp-for="Reps" class="control-label">Reps</label> *@
-        @* <input asp-for="Reps" type="number" step="1" name="Reps" class="form-control" /> *@
         
         <h3>Sets</h3>
         <div id="sets-container">
             
-                @for (int i = 1; i <= Model.NumberOfSets; i++)
-              
+            
+                @for (int i = 0; i < 3; i++)
+
                 {
-                 <div id="set-template">
-                    <h4>Set @i</h4>
-                    <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
+                    <div id="set-template">
+                        <h4>Set @i + 1</h4>
+                        <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
 
-                    <label>Reps</label>
-                    <input type="number" name="Sets[@i].Reps" class="form-control"/>
+                        <label>Reps</label>
+                        <input type="number" name="Sets[@i].Reps" class="form-control"/>
 
-                    <label>Weight</label>
-                    <input type="number" name="Sets[@i].Weight" class="form-control"/>
-                 </div>
+                        <label>Weight</label>
+                        <input type="number" name="Sets[@i].Weight" class="form-control"/>
+                    </div>
                 }
             
         </div>

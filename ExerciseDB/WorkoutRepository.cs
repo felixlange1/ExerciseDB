@@ -17,18 +17,32 @@ public class WorkoutRepository : IWorkoutRepository
     public Workout GetWorkout(int workoutId)
     {
         var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = workoutId });
-
+        var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workoutId }).ToList();
+      
         if (workout == null)
         {
             throw new Exception("Workout not found");
         }
-        Console.WriteLine($"Retrieved Date: {workout?.WorkoutDate}");
+        
+        if (set != null)
+        {
+            workout.Sets = set;
+        }
+        
         return workout;
     }
 
     public IEnumerable<Workout> GetAllWorkouts()
     {
-        return _connection.Query<Workout>("SELECT * FROM Workouts");
+        var workouts = _connection.Query<Workout>("SELECT * FROM Workouts").ToList();
+
+        foreach (var workout in workouts)
+        {
+            var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
+            workout.Sets = sets;
+        }
+        
+        return workouts;
     }
 
     public void UpdateWorkout(Workout workout)
@@ -71,7 +85,7 @@ public class WorkoutRepository : IWorkoutRepository
             _connection.Execute("INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) VALUES (@WorkoutID, @SetNumber, @Weight, @Reps);",
             new
             {
-                WorkoutID = workoutId, setNumber = set.SetNumber, weight = set.Weight, reps = set.Reps
+                workoutID = workoutId, setNumber = set.SetNumber, weight = set.Weight, reps = set.Reps
             });
         }
     }

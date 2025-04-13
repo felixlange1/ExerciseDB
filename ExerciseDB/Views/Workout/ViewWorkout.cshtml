@@ -25,15 +25,11 @@
         <th>Notes</th>
     </tr>
     <tr>
-        <th></th>
-        <th></th>
-        <th></th>
         @for (int i = 1; i <= @Model.NumberOfSets; i++)
         {
-            <th colspan="2">Weight</th>
-            <th colspan="2">Reps</th>
+            <th>Weight</th>
+            <th>Reps</th>
         }
-        <th></th>
     </tr>
     </thead>
     
@@ -42,12 +38,19 @@
         <td>@Model.WorkoutDate.ToString("yyyy-MM-dd")</td>
         <td>@Model.ExerciseName</td>
 
-        @foreach (var set in Model.Sets)
+        @for (int i = 0; i < Model.Sets.Count(); i++)
         {
-            <td>@set.Weight</td>
-            <td>@set.Reps</td>
+            if (i < Model.Sets.Count())
+            {
+                <td>@Model.Sets[i].Weight</td>
+                <td>@Model.Sets[i].Reps</td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+            }
         }
-
         <td>@Model.Notes</td>
     </tr>
 </table>

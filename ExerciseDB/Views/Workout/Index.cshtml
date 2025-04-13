@@ -16,32 +16,32 @@
     <a href="/Workout/CreateWorkout/">Add Workout</a>
 </div>
 <div>
+
     <table class="table">
         <thead>
         <tr>
             <th rowspan="2">ID</th>
             <th rowspan="2">Date</th>
-            <th rowspan="2">Exercise Name</th>
+            <th rowspan="2">Exercise</th>
             
             @for (int i = 1; i <= maxSets; i++)
             {
                 <th colspan="2">Set @i</th>
             }
 
-            <th>Notes</th>
+            <th rowspan="2">Notes</th>
+            <th rowspan="2"></th>
+            <th rowspan="2"></th>
         </tr>
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
             @for (int i = 1; i <= maxSets; i++)
             {
-                <th colspan="2">Weight</th>
-                <th colspan="2">Reps</th>
+                <th>Weight</th>
+                <th>Reps</th>
             }
-            <th></th>
         </tr>
         </thead>
+        <tbody>
         @foreach (var workout in @Model)
         {
             <tr>
@@ -49,11 +49,20 @@
                 <td>@workout.WorkoutDate.ToString("yyyy-MM-dd")</td>
                 <td>@workout.ExerciseName</td>
                 
-                    @foreach (var set in workout.Sets)
+                    @for (int i = 0; i < maxSets; i++)
                     {
-                        <td>@set.Weight</td>
-                        <td>@set.Reps</td>
+                        if (i < workout.Sets.Count)
+                        {
+                            <td>@workout.Sets[i].Weight</td>
+                            <td>@workout.Sets[i].Reps</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                        }
                     }
+
                 
                 <td>@workout.Notes</td>
                 <td><a href=/Workout/UpdateWorkout/@workout.WorkoutId>Edit</a></td>
@@ -66,7 +75,7 @@
                 </td>
             </tr>
         }
-
+        </tbody>
     </table>
 </div>
 </body>

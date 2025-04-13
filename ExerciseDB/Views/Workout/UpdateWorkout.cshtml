@@ -8,9 +8,9 @@
 </head>
 <body>
 <div>
-      @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
-      {
-          <input asp-for="WorkoutId" type="hidden" value="@Model.WorkoutId" />
+    @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
+    {
+        <input asp-for="WorkoutId" type="hidden" value="@Model.WorkoutId" />
 
         <label asp-for="WorkoutDate" class="control-label">Date</label>
         <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" value="@Model.WorkoutDate.ToString("yyyy-MM-dd")" />
@@ -21,28 +21,32 @@
         <h3>Sets</h3>
         <div id="sets-container">
             
-            @for (int i = 1; i <= Model.NumberOfSets; i++)
-              
+            @if (Model.Sets.Any())
             {
-                <div id="set-template">
-                    <h4>Set @i</h4>
-                    <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control" value="@Model.Sets[@i].SetNumber"/>
+                for (int i = 0; i < Model.NumberOfSets; i++)
 
-                    <label>Reps</label>
-                    <input type="number" name="Sets[@i].Reps" class="form-control" value="@Model.Sets[@i].Reps"/>
+                {
+                    <div id="set-template">
+                        <h4>Set @i + 1</h4>
+                        <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control" value="@Model.Sets[@i].SetNumber"/>
 
-                    <label>Weight</label>
-                    <input type="number" name="Sets[@i].Weight" class="form-control" value="@Model.Sets[@i].Weight"/>
-                </div>
+                        <label>Reps</label>
+                        <input type="number" name="Sets[@i].Reps" class="form-control" value="@Model.Sets[@i].Reps"/>
+
+                        <label>Weight</label>
+                        <input type="number" name="Sets[@i].Weight" class="form-control" value="@Model.Sets[@i].Weight"/>
+                    </div>
+                }
             }
-            
-        </div>
 
+        </div>
+        <button type="button" id="add-set-btn" class="btn btn-secondary">Add Set</button>
 
         <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>
 
         <input type="submit" value="Update" class="btn btn-primary" />
-      }
+    }
 </div>
+<script src="~/js/createWorkout.js"></script>
 </body>
 </html>

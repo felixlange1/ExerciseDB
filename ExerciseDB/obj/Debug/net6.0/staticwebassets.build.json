@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "VTFKD0ZhtevWWL5RnJlCHftctgazwJf69OyV11BSg0U=",
+  "Hash": "kFYRX+kqmenCgLZv9Byx9dWlIFIKco4DUrSX1nYj32A=",
   "Source": "ExerciseDB",
   "BasePath": "_content/ExerciseDB",
   "Mode": "Default",
@@ -83,6 +83,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/js/createWorkout.js",
+      "SourceId": "ExerciseDB",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/",
+      "BasePath": "_content/ExerciseDB",
+      "RelativePath": "js/createWorkout.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/createWorkout.js"
+    },
+    {
+      "Identity": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/js/search.js",
+      "SourceId": "ExerciseDB",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/",
+      "BasePath": "_content/ExerciseDB",
+      "RelativePath": "js/search.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/search.js"
     },
     {
       "Identity": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/js/site.js",
