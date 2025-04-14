@@ -23,20 +23,20 @@
         <div id="sets-container">
             
             
-                @for (int i = 0; i < 3; i++)
+            @for (int i = 0; i < 3; i++)
 
-                {
-                    <div id="set-template">
-                        <h4>Set @i + 1</h4>
-                        <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
+            {
+                <div id="set-template">
+                    <h4>Set @(i + 1)</h4>
+                    <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
 
-                        <label>Reps</label>
-                        <input type="number" name="Sets[@i].Reps" class="form-control"/>
+                    <label>Reps</label>
+                    <input type="number" name="Sets[@i].Reps" class="form-control"/>
 
-                        <label>Weight</label>
-                        <input type="number" name="Sets[@i].Weight" class="form-control"/>
-                    </div>
-                }
+                    <label>Weight</label>
+                    <input type="number" name="Sets[@i].Weight" class="form-control"/>
+                </div>
+            }
             
         </div>
 
@@ -48,6 +48,9 @@
     }
 
 </div>
+<script>
+    let setCount = @(Model.Sets == null || !Model.Sets.Any() ? 0 : Model.Sets.Count());
+</script>
 <script src="~/js/createWorkout.js"></script>
 </body>
 </html>

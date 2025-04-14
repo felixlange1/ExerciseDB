@@ -27,8 +27,10 @@
 
                 {
                     <div id="set-template">
-                        <h4>Set @i + 1</h4>
-                        <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control" value="@Model.Sets[@i].SetNumber"/>
+                        <h4>Set @(i + 1)</h4>
+                        <input type="hidden" name="Sets[@i].SetId" value="@Model.Sets[i].SetId" /> 
+                        
+                        <input type="hidden" name="Sets[@i].SetNumber" class="form-control" value="@Model.Sets[@i].SetNumber"/>
 
                         <label>Reps</label>
                         <input type="number" name="Sets[@i].Reps" class="form-control" value="@Model.Sets[@i].Reps"/>
@@ -47,6 +49,10 @@
         <input type="submit" value="Update" class="btn btn-primary" />
     }
 </div>
+<script>
+    let setCount = @(Model.Sets == null || !Model.Sets.Any() ? 0 : Model.Sets.Count());
+</script>
 <script src="~/js/createWorkout.js"></script>
+
 </body>
 </html>

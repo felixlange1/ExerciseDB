@@ -45,7 +45,7 @@
         @foreach (var workout in @Model)
         {
             <tr>
-                <td><a href=/Workout/ViewWorkout/@workout.WorkoutId>@workout.WorkoutId</a></td>
+                <td><a href="/Workout/ViewWorkout/@workout.WorkoutId">@workout.WorkoutId</a></td>
                 <td>@workout.WorkoutDate.ToString("yyyy-MM-dd")</td>
                 <td>@workout.ExerciseName</td>
                 
@@ -65,7 +65,7 @@
 
                 
                 <td>@workout.Notes</td>
-                <td><a href=/Workout/UpdateWorkout/@workout.WorkoutId>Edit</a></td>
+                <td><a href="/Workout/UpdateWorkout/@workout.WorkoutId">Edit</a></td>
                 <td>
                     @using (Html.BeginForm("DeleteWorkout", "Workout", FormMethod.Post))
                     {

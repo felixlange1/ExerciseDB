@@ -39,16 +39,30 @@ public class WorkoutController : Controller
 
     public IActionResult UpdateWorkoutToDatabase(Workout workout)
     {
+        Console.WriteLine("WorkoutId received from form: " + workout.WorkoutId);
+        if (workout.Sets == null)
+        {
+            Console.WriteLine("No sets received.");
+        }
+        else
+        {
+            Console.WriteLine("Number of sets: " + workout.Sets.Count);
+        }
+
         workout.NumberOfSets = workout.Sets.Count;
         repo.UpdateWorkout(workout);
-        return RedirectToAction("ViewWorkout", new { workoutId = workout.WorkoutId });
+        return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
     }
 
     public IActionResult CreateWorkout(string exerciseName)
     {
         
         ViewBag.ExerciseName = exerciseName;
-        return View();
+        var workout = new Workout()
+        {
+            Sets = new List<WorkoutSet>()
+        };
+        return View(workout);
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {

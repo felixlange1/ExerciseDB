@@ -1,5 +1,4 @@
 
-let setCount = 3
 document.getElementById("add-set-btn").addEventListener("click", function() {
     
     setCount++;
@@ -9,7 +8,7 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
     newSet.innerHTML = 
     `<h4>Set ${setCount}</h4>
 
-    <input type="hidden" name="WorkoutSets[${setCount}.SetNumber" value="${setCount}" className="form-control"/>
+    <input type="hidden" name="WorkoutSets[${setCount}].SetNumber" value="${setCount}" className="form-control"/>
 
     <label>Reps</label>
     <input type="number" name="WorkoutSets[${setCount}].Reps" className="form-control"/>

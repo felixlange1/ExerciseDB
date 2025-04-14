@@ -14,20 +14,18 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
-    public Workout GetWorkout(int workoutId)
+    public Workout GetWorkout(int id)
     {
-        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = workoutId });
-        var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workoutId }).ToList();
+        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
+        var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = id }).ToList();
       
         if (workout == null)
         {
             throw new Exception("Workout not found");
         }
         
-        if (set != null)
-        {
             workout.Sets = set;
-        }
+        
         
         return workout;
     }
@@ -51,19 +49,21 @@ public class WorkoutRepository : IWorkoutRepository
             new
             {
                 ExerciseName = workout.ExerciseName,
-                workoutDate = workout.WorkoutDate,
+                WorkoutDate = workout.WorkoutDate,
                 Notes = workout.Notes,
                 WorkoutId = workout.WorkoutId
             });
         foreach (var set in workout.Sets)
         {
-            _connection.Execute("UPDATE workout_sets SET SetNumber = @Setnumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
+            Console.WriteLine($"Set ID: {set.SetId}, Set #: {set.SetNumber}, Reps: {set.Reps}, Weight: {set.Weight}");
+            
+            _connection.Execute("UPDATE workout_sets SET SetNumber = @SetNumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
                 new
                 {
                     SetNumber = set.SetNumber,
                     Weight = set.Weight,
                     Reps = set.Reps,
-                    setId = set.SetId,
+                    SetId = set.SetId,
                     WorkoutId = workout.WorkoutId
                 });
         }
