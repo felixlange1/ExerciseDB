@@ -11,8 +11,9 @@
 <div>
     @using (Html.BeginForm("CreateWorkoutToDatabase", "Workout", "Post"))
     {
-        <input asp-for="WorkoutId" type="hidden" value="" />
-    
+        @* <input asp-for="WorkoutId" type="hidden" value="" /> *@
+        
+        
         <label asp-for="WorkoutDate" class="control-label">Date</label>
         <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" />
     
@@ -28,7 +29,10 @@
             {
                 <div id="set-template">
                     <h4>Set @(i + 1)</h4>
-                    <input type="hidden" name="Sets[@i].SetNumber" value="@i" class="form-control"/>
+
+                    <input type="hidden" name="Sets[@i].SetId" value="0" />
+                    
+                    <input type="hidden" name="Sets[@i].SetNumber" value="@(i + 1)" class="form-control"/>
 
                     <label>Reps</label>
                     <input type="number" name="Sets[@i].Reps" class="form-control"/>

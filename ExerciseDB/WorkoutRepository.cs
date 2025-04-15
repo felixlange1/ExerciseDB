@@ -56,16 +56,33 @@ public class WorkoutRepository : IWorkoutRepository
         foreach (var set in workout.Sets)
         {
             Console.WriteLine($"Set ID: {set.SetId}, Set #: {set.SetNumber}, Reps: {set.Reps}, Weight: {set.Weight}");
+
+            if (set.SetId > 0)
+            {
+                _connection.Execute(
+                    "UPDATE workout_sets SET SetNumber = @SetNumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
+                    new
+                    {
+                        SetNumber = set.SetNumber,
+                        Weight = set.Weight,
+                        Reps = set.Reps,
+                        SetId = set.SetId,
+                        WorkoutId = workout.WorkoutId
+                    });
+            }
+            else
+            {
+                _connection.Execute(
+                    "INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) VALUES (@WorkoutID, @SetNumber, @Weight, @Reps);",
+                    new
+                    {
+                        workoutID = workout.WorkoutId,
+                        setNumber = set.SetNumber,
+                        weight = set.Weight,
+                        reps = set.Reps
+                    });
+            }
             
-            _connection.Execute("UPDATE workout_sets SET SetNumber = @SetNumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
-                new
-                {
-                    SetNumber = set.SetNumber,
-                    Weight = set.Weight,
-                    Reps = set.Reps,
-                    SetId = set.SetId,
-                    WorkoutId = workout.WorkoutId
-                });
         }
     }
 
