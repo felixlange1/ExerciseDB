@@ -5,7 +5,7 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
     const newSet = document.createElement("div")
 
     newSet.innerHTML = 
-    `<h4>Set ${setCount}</h4>
+    `<h4>Set ${setCount + 1}</h4>
 
     <input type="hidden" id="newSetId" name="Sets[${setCount}].SetId" value="0" /> 
 

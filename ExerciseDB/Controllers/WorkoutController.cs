@@ -58,10 +58,8 @@ public class WorkoutController : Controller
     {
         
         ViewBag.ExerciseName = exerciseName;
-        var workout = new Workout()
-        {
-            Sets = new List<WorkoutSet>()
-        };
+        var workout = new Workout();
+
         return View(workout);
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
