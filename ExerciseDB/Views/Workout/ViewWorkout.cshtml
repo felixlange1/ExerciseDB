@@ -1,5 +1,7 @@
 @model Workout
-
+@{
+    var maxSets = Model.Sets.Any() ? Model.Sets.Count : 0;
+}
 
 <!DOCTYPE html>
 
@@ -17,7 +19,7 @@
         <th rowspan="2">Date</th>
         <th rowspan="2">Exercise Name</th>
 
-        @for (int i = 1; i <= @Model.NumberOfSets; i++)
+        @for (int i = 1; i <= maxSets; i++)
         {
             <th colspan="2">Set @i</th>
         }
@@ -25,7 +27,7 @@
         <th>Notes</th>
     </tr>
     <tr>
-        @for (int i = 1; i <= @Model.NumberOfSets; i++)
+        @for (int i = 1; i <= maxSets; i++)
         {
             <th>Weight</th>
             <th>Reps</th>
