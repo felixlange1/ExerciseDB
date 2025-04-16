@@ -24,32 +24,22 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
     setCount++;
 })
 
-document.addEventListener("click", async(e) => {
+document.getElementById("sets-container").addEventListener("click", function(e) {
     if (e.target.classList.contains("delete-saved-set-btn")) {
-        e.preventDefault();
-    
-        const confirmDelete = confirm("Are you sure you want to delete this set?");
-        if (!confirmDelete) return;
-
+        const confirmed = confirm("Are you sure you want to delete this set?");
+        if (!confirmed) return;
+        
+        // Hide the set you want to delete:
         const setId = e.target.dataset.setId;
         const setElement = e.target.closest(".set-group");
+        if (setElement) setElement.remove();
         
-        try {
-            const response = await fetch(`/Workout/DeleteSet/${setId}`, {
-                method: "POST",
-                headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                }
-            });
-            if (response.ok) {
-                setElement.remove();
-            } else {
-                alert("Failed to delete this set.");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("An error occurred.");
-        }
+        // Adds hidden input to track setIDs of sets to be deleted:
+        const setsToDelete = document.createElement("input");
+        setsToDelete.type = "hidden";
+        setsToDelete.name = "DeletedSetIds";
+        setsToDelete.value = setId;
+        document.getElementById("deleted-set-ids").appendChild(setsToDelete);
     }
 });
 

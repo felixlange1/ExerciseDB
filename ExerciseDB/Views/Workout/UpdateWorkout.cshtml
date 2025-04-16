@@ -28,7 +28,7 @@
 
                 {
                     <div class="set-template set-group">
-                    <h4>Set @(i + 1)</h4>
+                        <h4>Set @(i + 1)</h4>
                         <button type="button" class="delete-saved-set-btn" data-set-id="@Model.Sets[i].SetId">&times;</button>
                     
                         <input type="hidden" name="Sets[@i].SetId" value="@Model.Sets[i].SetId"/>
@@ -45,6 +45,7 @@
             }
 
         </div>
+        <div id="deleted-set-ids"></div>
         <button type="button" id="add-set-btn" class="btn btn-secondary">Add Set</button>
 
         <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>

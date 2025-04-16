@@ -37,7 +37,7 @@ public class WorkoutController : Controller
         return View(workout);
     }
 
-    public IActionResult UpdateWorkoutToDatabase(Workout workout)
+    public IActionResult UpdateWorkoutToDatabase(Workout workout, List<int> DeletedSetIds)
     {
         Console.WriteLine("WorkoutId received from form: " + workout.WorkoutId);
         if (workout.Sets == null)
@@ -49,6 +49,10 @@ public class WorkoutController : Controller
             Console.WriteLine("Number of sets: " + workout.Sets.Count);
         }
 
+        foreach (var id in DeletedSetIds)
+        {
+            repo.DeleteSet(id);
+        }
         workout.NumberOfSets = workout.Sets.Count;
         repo.UpdateWorkout(workout);
         return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
@@ -77,6 +81,6 @@ public class WorkoutController : Controller
     
     public void DeleteSet(int id)
     {
-        repo.DeleteSet(id);
+        
     }
 }

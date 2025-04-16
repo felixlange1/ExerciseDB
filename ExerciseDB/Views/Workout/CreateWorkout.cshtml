@@ -27,9 +27,9 @@
             @for (int i = 0; i < 3; i++)
 
             {
-                <div id="set-template" class="set-group">
+                <div id="set-template">
                     <h4>Set @(i + 1)</h4>
-                    <button type="button" class="delete-saved-set-btn" data-set-id="@Model.Sets[i].SetId">&times;</button>
+                    <span class="delete-set-btn">&times;</span>
 
                     <input type="hidden" name="Sets[@i].SetId" value="0" />
                     
