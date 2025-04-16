@@ -24,11 +24,13 @@
             @if (Model.Sets.Any())
                 
             {
-                for (int i = 0; i < Model.NumberOfSets; i++)
+                for (int i = 0; i < Model.Sets.Count; i++)
 
                 {
-                    <div id="set-template">
-                        <h4>Set @(i + 1)</h4>
+                    <div class="set-template set-group">
+                    <h4>Set @(i + 1)</h4>
+                        <button type="button" class="delete-saved-set-btn" data-set-id="@Model.Sets[i].SetId">&times;</button>
+                    
                         <input type="hidden" name="Sets[@i].SetId" value="@Model.Sets[i].SetId"/>
 
                         <input type="hidden" name="Sets[@i].SetNumber" class="form-control" value="@Model.Sets[@i].SetNumber"/>

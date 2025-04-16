@@ -9,4 +9,5 @@ public interface IWorkoutRepository
     public void UpdateWorkout(Workout workout);
     public void CreateWorkout(Workout workout);
     public void DeleteWorkout(Workout workout);
+    public void DeleteSet(int id);
 }

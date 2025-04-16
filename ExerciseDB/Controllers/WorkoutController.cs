@@ -74,4 +74,9 @@ public class WorkoutController : Controller
         repo.DeleteWorkout(workoutToDelete);
         return RedirectToAction("Index");
     }
+    
+    public void DeleteSet(int id)
+    {
+        repo.DeleteSet(id);
+    }
 }
