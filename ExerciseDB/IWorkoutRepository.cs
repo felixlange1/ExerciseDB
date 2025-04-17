@@ -8,6 +8,6 @@ public interface IWorkoutRepository
     public IEnumerable<Workout> GetAllWorkouts();
     public void UpdateWorkout(Workout workout);
     public void CreateWorkout(Workout workout);
-    public void DeleteWorkout(Workout workout);
+    public void DeleteWorkout(int id);
     public void DeleteSet(int id);
 }

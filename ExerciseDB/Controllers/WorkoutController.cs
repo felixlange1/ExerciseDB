@@ -73,14 +73,10 @@ public class WorkoutController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult DeleteWorkout(Workout workoutToDelete)
+    public IActionResult DeleteWorkout(int id)
     {
-        repo.DeleteWorkout(workoutToDelete);
+        repo.DeleteWorkout(id);
         return RedirectToAction("Index");
     }
     
-    public void DeleteSet(int id)
-    {
-        
-    }
 }

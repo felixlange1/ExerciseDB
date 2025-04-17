@@ -88,6 +88,7 @@ public class WorkoutRepository : IWorkoutRepository
 
     public void CreateWorkout(Workout workout)
     {
+        workout.Sets = workout.Sets.Where(set => set.Reps > 0 && set.Weight > 0).ToList();
         _connection.Execute(
             "INSERT INTO workouts (ExerciseName, WorkoutDate, Notes) VALUES (@exerciseName, @workoutdate, @notes);",
             new
@@ -107,10 +108,10 @@ public class WorkoutRepository : IWorkoutRepository
         }
     }
 
-    public void DeleteWorkout(Workout workout)
+    public void DeleteWorkout(int id)
     {
-        _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = workout.WorkoutId });
-        _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = workout.WorkoutId });
+        _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = id });
+        _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = id });
     }
 
     public void DeleteSet(int id)
