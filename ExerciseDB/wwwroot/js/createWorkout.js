@@ -1,5 +1,5 @@
 document.getElementById("add-set-btn").addEventListener("click", function() {
-    
+
     
 
     const newSet = document.createElement("div")
@@ -10,17 +10,18 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
 
     <input type="hidden" id="newSetId" name="Sets[${setCount}].SetId" value="0" /> 
 
-    <input type="hidden" name="Sets[${setCount}].SetNumber" value="${setCount}" class="form-control"/>
+    <input type="hidden" name="Sets[${setCount}].SetNumber" value="${setCount + 1}" class="form-control"/>
 
     <label>Reps</label>
     <input type="number" name="Sets[${setCount}].Reps" class="form-control"/>
 
     <label>Weight</label>
     <input type="number" name="Sets[${setCount}].Weight" class="form-control"/>
-
+    
 </div>`
 
     document.getElementById('sets-container').appendChild(newSet);
+    
     setCount++;
 })
 

@@ -53,7 +53,7 @@ public class WorkoutController : Controller
         {
             repo.DeleteSet(id);
         }
-        workout.NumberOfSets = workout.Sets.Count;
+   //     workout.NumberOfSets = workout.Sets.Count;
         repo.UpdateWorkout(workout);
         return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
     }
@@ -68,7 +68,7 @@ public class WorkoutController : Controller
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
-        workoutToCreate.NumberOfSets = workoutToCreate.Sets.Count;
+   //     workoutToCreate.NumberOfSets = workoutToCreate.Sets.Count;
         repo.CreateWorkout(workoutToCreate);
         return RedirectToAction("Index");
     }
