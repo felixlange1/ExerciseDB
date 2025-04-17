@@ -51,3 +51,7 @@ document.getElementById("sets-container").addEventListener("click", function (e)
         setCount--;
     }
 });
+
+const dateInput = document.getElementById("workout-date");
+const today = new Date().toISOString().split("T")[0];
+dateInput.value = today;
