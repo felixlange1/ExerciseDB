@@ -29,5 +29,32 @@ public class ExerciseController : Controller
         var exercises = JsonConvert.DeserializeObject<List<Exercise>>(jsonResponse);
         return View(exercises);
     }
+
+    public async Task<IActionResult> LiveSearch(string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return Json(new List<Exercise>());
+        }
+        var jsonResponse = await _apiService.SearchExercisesAsync(searchTerm);
+        var exercises = JsonConvert.DeserializeObject<List<Exercise>>(jsonResponse);
+        return Json(exercises);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> ViewExercise()
+    {
+        using (var reader = new StreamReader(Request.Body))
+        {
+            var response = await reader.ReadToEndAsync();
+            var exercise = JsonConvert.DeserializeObject<Exercise>(response);
+            if (exercise == null)
+            {
+                return BadRequest("Exercise is null");
+            }
+            return View(exercise);
+        }
+   
+    }
     
 }

@@ -18,10 +18,12 @@
 
 <div>
     <form method="get" asp-controller="Exercise" asp-action="Index">
-        <input type="text" name="searchTerm" class="searchTerm form-control" placeholder="Search for exercises" />
+        <input type="text" name="searchTerm" id="search-input" class="form-control" placeholder="Search for exercises" />
+        
         <button type="submit">Search</button>
     </form>
 </div>
+<div id="results-container"></div>
 @if (Model != null && Model.Any())
 {
     <p>Click on an exercise to save it as a workout.</p>
@@ -48,5 +50,7 @@ else if (Model != null)
 {
     <p>No exercises found.</p>
 }
+
+<script src="~/js/search.js"></script>
 </body>
 </html>

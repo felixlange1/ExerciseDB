@@ -1,0 +1,28 @@
+@model Exercise
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@Model.Name Instructions</title>
+</head>
+<body>
+<div id="results-container">
+    <h3><a href="/Workout/CreateWorkout/?exerciseName=@Model.Name">@Model.Name</a></h3>
+    <p>(Click to save as a workout.)</p>
+    <p><strong>Body Part: @Model.BodyPart </strong></p>
+    <p><strong>Target Muscle: @Model.Target </strong></p>
+    <p>Equipment Used: @Model.Equipment</p>
+    <img src="@Model.GifUrl" alt="@Model.Name" width="200" height="200">
+
+    <h4>Instructions:</h4>
+    <ul>
+        @foreach (var step in Model.Instructions)
+        {
+            <li>@step</li>
+        }
+    </ul>
+</div>
+</body>
+</html>
