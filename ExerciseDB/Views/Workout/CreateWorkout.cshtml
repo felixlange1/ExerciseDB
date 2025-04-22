@@ -18,9 +18,10 @@
             <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="workout-date" class="form-control" />
         </div>
         
-        <div class="col-md-6">
+        <div class="col-md-6 position-relative">
             <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
-            <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" class="form-control" />
+            <div id="search-suggestions"></div>
+            <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" id="exercise-name" data-mode="form" class="exercise-search form-control" />
         </div>
         
         <div id="sets-container">
@@ -63,6 +64,7 @@
 <script>
     let setCount = 3;
 </script>
+<script src="~/js/search.js"></script>
 <script src="~/js/createWorkout.js"></script>
 </body>
 </html>

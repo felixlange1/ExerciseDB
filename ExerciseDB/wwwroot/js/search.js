@@ -1,9 +1,10 @@
-const searchInput = document.getElementById("search-input");
+const searchInput = document.querySelector(".exercise-search");
 const suggestionBox = document.getElementById("search-suggestions");
 let exercises = [];
 
 searchInput.addEventListener("input", async function (e) {
     
+    const dataMode = searchInput.dataset.mode;
     const query = e.target.value;
         
     if (query.length > 3)
@@ -28,8 +29,16 @@ searchInput.addEventListener("input", async function (e) {
             listItem.textContent = capitalizedName;
             listItem.classList.add("result-list");
             listItem.addEventListener("click", () => {
-                suggestionBox.innerHTML = "";
-                displaySearchResults(exercises[index], capitalizedName);
+                if (dataMode === "full") {
+                    
+                    displaySearchResults(exercises[index], capitalizedName);
+                    suggestionBox.style.display = "none";
+                }
+                else if (dataMode === "form") {
+                    document.getElementById("exercise-name").value = toTitleCase(exercise.name);
+                    suggestionBox.style.display = "none";
+                    
+                }
             });
             suggestionBox.appendChild(listItem);
     });
