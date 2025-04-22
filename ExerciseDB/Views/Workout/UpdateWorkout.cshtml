@@ -7,52 +7,63 @@
     <title>Update Workout</title>
 </head>
 <body>
+<h2>Update Workout</h2>
 <div>
     @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
     {
-        <input asp-for="WorkoutId" type="hidden" value="@Model.WorkoutId" />
+        <input asp-for="WorkoutId" type="hidden" value="@Model.WorkoutId"/>
 
-        <label asp-for="WorkoutDate" class="control-label">Date</label>
-        <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" value="@Model.WorkoutDate.ToString("yyyy-MM-dd")" />
+        <div class="col-md-2">
+            <label asp-for="WorkoutDate" class="control-label">Date</label>
+            <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="date" class="form-control" value="@Model.WorkoutDate.ToString("yyyy-MM-dd")"/>
+        </div>
 
-        <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
-        <input asp-for="ExerciseName" type="text" name="ExerciseName" class="form-control" value="@Model.ExerciseName" />
+        <div class="col-md-6">
+            <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+            <input asp-for="ExerciseName" type="text" name="ExerciseName" class="form-control" value="@Model.ExerciseName"/>
+        </div>
 
-        <h3>Sets</h3>
-        
         <div id="sets-container">
             @if (Model.Sets.Any())
-                
+
             {
                 for (int i = 0; i < Model.Sets.Count; i++)
 
                 {
                     <div class="set-template set-group">
-                        <h4>Set @(i + 1)</h4>
-                        <button type="button" class="delete-saved-set-btn" data-set-id="@Model.Sets[i].SetId">&times;</button>
-                    
+                        <div class="d-flex justify-content-between align-items-center col-md-4 mt-3 pe-2">
+                            <h3 class="set-heading mb-0">Set @(i + 1)</h3>
+                            <button type="button" class="btn-close delete-saved-set-btn" data-set-id="@Model.Sets[i].SetId"></button>
+                        </div>
+
                         <input type="hidden" name="Sets[@i].SetId" value="@Model.Sets[i].SetId"/>
 
                         <input type="hidden" name="Sets[@i].SetNumber" class="form-control" value="@Model.Sets[@i].SetNumber"/>
 
-                        <label>Reps</label>
-                        <input type="number" name="Sets[@i].Reps" class="form-control" value="@Model.Sets[@i].Reps"/>
-
-                        <label>Weight</label>
-                        <input type="number" name="Sets[@i].Weight" class="form-control" value="@Model.Sets[@i].Weight"/>
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label>Reps</label>
+                                <input type="number" name="Sets[@i].Reps" class="form-control" value="@Model.Sets[@i].Reps"/>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Weight</label>
+                                <input type="number" name="Sets[@i].Weight" class="form-control" value="@Model.Sets[@i].Weight"/>
+                            </div>
+                        </div>
                     </div>
                 }
             }
-
         </div>
+
         <div id="deleted-set-ids"></div>
-        <button type="button" id="add-set-btn" class="btn btn-secondary">Add Set</button>
-
-        <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>
-
-        <input type="submit" value="Update" class="btn btn-primary" />
+        <button type="button" id="add-set-btn" class="btn btn-secondary mt-2 mb-4">Add Set</button>
+        <div class="col-md-6">
+            <textarea asp-for="Notes" name="notes" class="form-control" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>
+        </div>
+        <input type="submit" value="Update" class="btn btn-primary mt-4"/>
     }
 </div>
+
 <script>
     let setCount = @(Model.Sets == null || !Model.Sets.Any() ? 0 : Model.Sets.Count());
 </script>

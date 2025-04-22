@@ -6,18 +6,24 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
 
     newSet.innerHTML = 
     `<div class="set-template">
-    <h4>Set ${setCount + 1}</h4><span class="delete-set-btn">&times;</span>
-
+    <div class="d-flex justify-content-between align-items-center col-md-4 mt-3 pe-2">
+        <h3 class="set-heading mb-0">Set ${setCount + 1}</h3>
+        <button class="btn-close delete-set-btn"></button>
+    </div>
+    
     <input type="hidden" id="newSetId" name="Sets[${setCount}].SetId" value="0" /> 
 
     <input type="hidden" name="Sets[${setCount}].SetNumber" value="${setCount + 1}" class="form-control"/>
 
-    <label>Reps</label>
-    <input type="number" name="Sets[${setCount}].Reps" class="form-control"/>
-
-    <label>Weight</label>
-    <input type="number" name="Sets[${setCount}].Weight" class="form-control"/>
-    
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label>Reps</label>
+            <input type="number" name="Sets[${setCount}].Reps" class="form-control"/>
+        </div>
+    <div class="form-group col-md-2">
+        <label>Weight</label>
+        <input type="number" name="Sets[${setCount}].Weight" class="form-control"/>
+    </div>
 </div>`
 
     document.getElementById('sets-container').appendChild(newSet);
@@ -53,5 +59,5 @@ document.getElementById("sets-container").addEventListener("click", function (e)
 });
 
 const dateInput = document.getElementById("workout-date");
-const today = new Date().toISOString().split("T")[0];
+const today = new Date().toLocaleDateString('en-CA');
 dateInput.value = today;

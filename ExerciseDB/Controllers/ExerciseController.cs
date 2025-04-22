@@ -41,20 +41,20 @@ public class ExerciseController : Controller
         return Json(exercises);
     }
     
-    [HttpPost]
-    public async Task<IActionResult> ViewExercise()
-    {
-        using (var reader = new StreamReader(Request.Body))
-        {
-            var response = await reader.ReadToEndAsync();
-            var exercise = JsonConvert.DeserializeObject<Exercise>(response);
-            if (exercise == null)
-            {
-                return BadRequest("Exercise is null");
-            }
-            return View(exercise);
-        }
-   
-    }
+    // [HttpPost]
+    // public async Task<IActionResult> ViewExercise()
+    // {
+    //     using (var reader = new StreamReader(Request.Body))
+    //     {
+    //         var response = await reader.ReadToEndAsync();
+    //         var exercise = JsonConvert.DeserializeObject<Exercise>(response);
+    //         if (exercise == null)
+    //         {
+    //             return BadRequest("Exercise is null");
+    //         }
+    //         return View(exercise);
+    //     }
+    //
+    // }
     
 }

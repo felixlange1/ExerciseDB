@@ -9,28 +9,37 @@
 <html>
 <head>
     <title>Exercises</title>
+    <link rel="stylesheet" href="~/css/site.css">
 </head>
 
 @model IEnumerable<Exercise>
 
 <body>
-<h2>Search for an Exercise</h2>
-
-<div>
-    <form method="get" asp-controller="Exercise" asp-action="Index">
-        <input type="text" name="searchTerm" id="search-input" class="form-control" placeholder="Search for exercises" />
-        
-        <button type="submit">Search</button>
+<div class="search-page">
+<h2 class="heading">Fitness Tracker</h2>
+<div class="form-container">
+    <form class="row justify-content-center" method="get" asp-controller="Exercise" asp-action="Index">
+    
+        <div class="col-10 position-relative">
+            <input type="text" name="searchTerm" id="search-input" class="form-control form-control-lg" placeholder="Search for exercises"/>
+            <div id="search-suggestions"></div>
+            </div>
+        <div class="col-2 col-md-auto">
+            <button id="search-btn" class="btn btn-primary btn-lg" type="submit">Search</button>
+        </div>
     </form>
+    
 </div>
-<div id="results-container"></div>
+
+<div id="results-container">
+</div>
 @if (Model != null && Model.Any())
 {
-    <p>Click on an exercise to save it as a workout.</p>
     <ul>
         @foreach (var exercise in Model)
         {
-            <h3><a href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">@exercise.Name</a></h3>
+            <h3>@exercise.Name</h3>
+            <div class="save-btn d-flex flex-row-reverse p2"><a href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">Save as a workout</a></div>
             <p><strong>Body Part: @exercise.BodyPart </strong></p>
             <p><strong>Target Muscle: @exercise.Target </strong></p>
             <p>Equipment Used: @exercise.Equipment</p>
@@ -50,6 +59,7 @@ else if (Model != null)
 {
     <p>No exercises found.</p>
 }
+</div>
 
 <script src="~/js/search.js"></script>
 </body>

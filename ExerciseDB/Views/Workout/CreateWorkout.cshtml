@@ -13,43 +13,50 @@
     {
         @* <input asp-for="WorkoutId" type="hidden" value="" /> *@
         
+        <div class="col-md-2">
+            <label asp-for="WorkoutDate" class="control-label">Date</label>
+            <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="workout-date" class="form-control" />
+        </div>
         
-        <label asp-for="WorkoutDate" class="control-label">Date</label>
-        <input asp-for="WorkoutDate" type="date" name="WorkoutDate" id="workout-date" class="form-control" />
-    
-        <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
-        <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" class="form-control" />
+        <div class="col-md-6">
+            <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+            <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" class="form-control" />
+        </div>
         
-        <h3>Sets</h3>
         <div id="sets-container">
-            
             
             @for (int i = 0; i < 3; i++)
 
             {
                 <div class="set-template">
-                    <h4>Set @(i + 1)</h4>
-                    <span class="delete-set-btn">&times;</span>
-
+                    <div class="d-flex justify-content-between align-items-center col-md-4 mt-3 pe-2">
+                        <h3 class="set-heading mb-0">Set @(i + 1)</h3>
+                        <button type="button" class="btn-close delete-set-btn"></button>
+                    </div>
+                    
                     <input type="hidden" name="Sets[@i].SetId" value="0" />
                     
                     <input type="hidden" name="Sets[@i].SetNumber" value="@(i + 1)" class="form-control"/>
-
-                    <label>Reps</label>
-                    <input type="number" name="Sets[@i].Reps" class="form-control"/>
-
-                    <label>Weight</label>
-                    <input type="number" name="Sets[@i].Weight" class="form-control"/>
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                        <label>Reps</label>
+                        <input type="number" name="Sets[@i].Reps" class="form-control"/>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Weight</label>
+                            <input type="number" name="Sets[@i].Weight" class="form-control"/>
+                        </div>
+                    </div>
                 </div>
             }
             
         </div>
 
-        <button type="button" id="add-set-btn" class="btn btn-secondary">Add Set</button>
-    
-        <textarea asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..."></textarea>
-    
-        <input type="submit" value="Add Workout" class="btn btn-primary" />
+        <button type="button" id="add-set-btn" class="btn btn-secondary mt-2 mb-4">Add Set</button>
+        <div class="col-md-6">
+            <textarea class="form-control" asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..."></textarea>
+        </div>
+        <input type="submit" value="Add Workout" class="btn btn-primary mt-4" />
     }
 
 </div>
