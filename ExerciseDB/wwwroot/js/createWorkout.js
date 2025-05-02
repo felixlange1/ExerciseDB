@@ -5,26 +5,29 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
     const newSet = document.createElement("div")
 
     newSet.innerHTML = 
-    `<div class="set-template">
-    <div class="d-flex justify-content-between align-items-center col-md-4 mt-3 pe-2">
-        <h3 class="set-heading mb-0">Set ${setCount + 1}</h3>
-        <button class="btn-close delete-set-btn"></button>
-    </div>
+    `<div class="row me-2">
+        <div class="set-template ms-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="set-heading">Set ${setCount + 1}</h3>
+                <button type="button" class="btn-close delete-set-btn mb-2"></button>
+            </div>
     
-    <input type="hidden" id="newSetId" name="Sets[${setCount}].SetId" value="0" /> 
+        <input type="hidden" id="newSetId" name="Sets[${setCount}].SetId" value="0" /> 
 
-    <input type="hidden" name="Sets[${setCount}].SetNumber" value="${setCount + 1}" class="form-control"/>
+        <input type="hidden" name="Sets[${setCount}].SetNumber" value="${setCount + 1}" class="form-control"/>
 
-    <div class="row">
-        <div class="form-group col-md-2">
-            <label>Reps</label>
-            <input type="number" name="Sets[${setCount}].Reps" class="form-control"/>
+            <div class="row">
+                 <div class="form-group col-md-2">
+                    <label>Weight</label>
+                    <input type="number" name="Sets[${setCount}].Weight" class="form-control"/>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Reps</label>
+                    <input type="number" name="Sets[${setCount}].Reps" class="form-control"/>
+                </div>
+            </div>
         </div>
-    <div class="form-group col-md-2">
-        <label>Weight</label>
-        <input type="number" name="Sets[${setCount}].Weight" class="form-control"/>
-    </div>
-</div>`
+    </div>`
 
     document.getElementById('sets-container').appendChild(newSet);
     

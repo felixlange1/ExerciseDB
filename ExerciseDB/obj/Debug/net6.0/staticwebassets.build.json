@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kFYRX+kqmenCgLZv9Byx9dWlIFIKco4DUrSX1nYj32A=",
+  "Hash": "K9Nub+IUjTex6KXXV1InrJsvpn9exCrqBS9ReJUCfK8=",
   "Source": "ExerciseDB",
   "BasePath": "_content/ExerciseDB",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/images/exercises.jpg",
+      "SourceId": "ExerciseDB",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/",
+      "BasePath": "_content/ExerciseDB",
+      "RelativePath": "images/exercises.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/exercises.jpg"
     },
     {
       "Identity": "/Users/felixlange/Desktop/Code/repos/ASP-test/ExerciseDB/ExerciseDB/wwwroot/js/createWorkout.js",

@@ -14,9 +14,9 @@ public class WorkoutController : Controller
         this.repo = repo;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string sortBy, string searchString)
     {
-        var workouts = repo.GetAllWorkouts();
+        var workouts = repo.GetAllWorkouts(sortBy, searchString);
         return View(workouts);
     }
     
@@ -78,5 +78,13 @@ public class WorkoutController : Controller
         repo.DeleteWorkout(id);
         return RedirectToAction("Index");
     }
+
+    // public IActionResult SearchWorkout(string searchString, string sortBy)
+    // {
+    //     ViewBag.searchString = searchString;
+    //     
+    //     var workouts = repo.GetAllWorkouts(sortBy).Where(w => w.ExerciseName.Contains(searchString));
+    //     return View("Index", workouts);
+    // }
     
 }

@@ -9,20 +9,26 @@
 </head>
 <body>
 <div id="results-container">
-    <h3>@Model.Name</h3>
-    <div><a href="/Workout/CreateWorkout/?exerciseName=@Model.Name" class="btn btn-primary">Save as a workout</a></div>
-    <p><strong>Body Part: @Model.BodyPart </strong></p>
-    <p><strong>Target Muscle: @Model.Target </strong></p>
-    <p>Equipment Used: @Model.Equipment</p>
-    <img src="@Model.GifUrl" alt="@Model.Name" width="200" height="200">
+<div class="card shadow-sm rounded-3">
+    <div class="card-body">
+        
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">@Model.Name</h3>
+                <a href="/Workout/CreateWorkout/?exerciseName=@Model.Name" class="btn btn-primary">Save as a workout</a></div>
+            <p><strong>Body Part: @Model.BodyPart </strong></p>
+            <p><strong>Target Muscle: @Model.Target </strong></p>
+            <p>Equipment Used: @Model.Equipment</p>
+            <img src="@Model.GifUrl" alt="@Model.Name" width="200" height="200">
 
-    <h4>Instructions:</h4>
-    <ul>
-        @foreach (var step in Model.Instructions)
-        {
-            <li>@step</li>
-        }
-    </ul>
+            <h4>Instructions:</h4>
+            <ul>
+                @foreach (var step in Model.Instructions)
+                {
+                    <li>@step</li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
 <script src="~/js/search.js"></script>
 </body>

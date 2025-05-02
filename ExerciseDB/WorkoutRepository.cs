@@ -1,4 +1,5 @@
 using System.Data;
+using System.Text;
 using ExerciseDB.Models;
 using Dapper;
 
@@ -30,16 +31,95 @@ public class WorkoutRepository : IWorkoutRepository
         return workout;
     }
 
-    public IEnumerable<Workout> GetAllWorkouts()
+    
+    
+    // public IEnumerable<Workout> SearchWorkout(string searchString, string sortBy)
+    // {
+    //     string query = "SELECT * FROM Workouts WHERE(ExerciseName) LIKE %@searchString%";
+    //
+    //
+    //     
+    //     switch (sortBy)
+    //     {
+    //         case "Name":
+    //             query += " ORDER BY ExerciseName, WorkoutDate";
+    //             break;
+    //         case "NameDesc":
+    //             query += " ORDER BY ExerciseName DESC, WorkoutDate";
+    //             break;
+    //         case "Date":
+    //             query += " ORDER BY WorkoutDate";
+    //             break;
+    //         case "DateDesc":
+    //             query += " ORDER BY WorkoutDate DESC";
+    //             break;
+    //         default:
+    //             query += " ORDER BY WorkoutDate DESC";
+    //             break;
+    //     }
+    //
+    //     var workouts = _connection.Query<Workout>(query, new { searchString = $"%{searchString.ToLower()}%" }).ToList();
+    //     
+    //     foreach (var workout in workouts)
+    //     {
+    //         var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
+    //         workout.Sets = sets;
+    //     }
+    //     
+    //     return workouts;
+    // }
+    //
+    
+    
+    
+    
+    
+    public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString)
     {
-        var workouts = _connection.Query<Workout>("SELECT * FROM Workouts").ToList();
+        
+        var query = new StringBuilder("SELECT * FROM Workouts");
+        
+        if (searchString != null)
+        {
+            query.Append(" WHERE (ExerciseName) LIKE @searchString");
+        }
 
+        switch (sortBy)
+        {
+            case "Name":
+                query.Append(" ORDER BY ExerciseName, WorkoutDate");
+                break;
+            case "NameDesc":
+                query.Append(" ORDER BY ExerciseName DESC, WorkoutDate");
+                break;
+            case "Date":
+                query.Append(" ORDER BY WorkoutDate");
+                break;
+            case "DateDesc":
+                query.Append(" ORDER BY WorkoutDate DESC");
+                break;
+            default:
+                query.Append(" ORDER BY WorkoutDate DESC");
+                break;
+        }
+
+        IEnumerable<Workout> workouts;
+        
+        if (searchString != null)
+        {
+            workouts = _connection.Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
+        }
+        else
+        {
+            workouts = _connection.Query<Workout>(query.ToString()).ToList();
+        }
+        
         foreach (var workout in workouts)
         {
             var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
             workout.Sets = sets;
         }
-        
+
         return workouts;
     }
 
@@ -118,4 +198,5 @@ public class WorkoutRepository : IWorkoutRepository
     {
         _connection.Execute("DELETE FROM workout_sets WHERE SetId = @setId;", new { setId = id });
     }
+
 }

@@ -1,5 +1,8 @@
+console.log("TESTY TEST2")
+
 const searchInput = document.querySelector(".exercise-search");
 const suggestionBox = document.getElementById("search-suggestions");
+const resultsContainer = document.getElementById("results-container");
 let exercises = [];
 
 searchInput.addEventListener("input", async function (e) {
@@ -23,19 +26,20 @@ searchInput.addEventListener("input", async function (e) {
         }
         
         exercises.forEach((exercise, index) => {
-            capitalizedName = toTitleCase(exercise.name);
+            // let capitalizedName = toTitleCase(exercise.name);
             const listItem = document.createElement("div");
             
-            listItem.textContent = capitalizedName;
+            listItem.textContent = exercise.name;
             listItem.classList.add("result-list");
             listItem.addEventListener("click", () => {
                 if (dataMode === "full") {
-                    
-                    displaySearchResults(exercises[index], capitalizedName);
+
+                    resultsContainer.innerHTML= "";
+                    displaySearchResults(exercises[index]);
                     suggestionBox.style.display = "none";
                 }
                 else if (dataMode === "form") {
-                    document.getElementById("exercise-name").value = toTitleCase(exercise.name);
+                    document.getElementById("exercise-name").value = exercise.name;
                     suggestionBox.style.display = "none";
                     
                 }
@@ -49,24 +53,29 @@ searchInput.addEventListener("input", async function (e) {
     }
 });
 
-function displaySearchResults(exercise, capitalizedName) {
-    const resultsContainer = document.getElementById("results-container");
+function displaySearchResults(exercise) {
+    resultsContainer.innerHTML= "";
     resultsContainer.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-        <h3>${toTitleCase(exercise.name)}</h3>
-        <a href="/Workout/CreateWorkout/?exerciseName=${capitalizedName}" class="btn btn-primary">Save as workout</a></div>
-        <p><strong>Body Part: </strong>${exercise.bodyPart}</p>
-        <p><strong>Target Muscle: </strong>${exercise.target}</p>
-        <p><strong>Equipment Used: </strong>${exercise.equipment}</p>
-        <img src="${exercise.gifUrl}" alt="${exercise.name}" width="200" height="200">
-        <p><strong>Instructions:</strong></p>
-        <ul>
-            ${exercise.instructions.map(step => `<li>${step}</li>`).join('')}
-        </ul>
+        <div class="card shadow-sm rounded-3 mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">${exercise.name}</h3>
+                    <a href="/Workout/CreateWorkout/?exerciseName=${exercise.name}" class="btn btn-primary">Save as workout</a>
+                </div>
+                <p><strong>Body Part: </strong>${exercise.bodyPart}</p>
+                <p><strong>Target Muscle: </strong>${exercise.target}</p>
+                <p><strong>Equipment Used: </strong>${exercise.equipment}</p>
+                <img src="${exercise.gifUrl}" alt="${exercise.name}" width="200" height="200">
+                <p><strong>Instructions:</strong></p>
+                <ul>
+                    ${exercise.instructions.map(step => `<li>${step}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
     `;
     }
 
 
-function toTitleCase(string) {
-    return string.replace(/\b\w/g, char => char.toUpperCase());
-}
+// function toTitleCase(string) {
+//     return string.replace(/\b\w/g, char => char.toUpperCase());
+// }

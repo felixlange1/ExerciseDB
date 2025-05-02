@@ -16,7 +16,7 @@
 
 <body>
 <div class="search-page">
-<h2 class="heading">Fitness Tracker</h2>
+<h2 class="heading">Exercise Search</h2>
 <div class="form-container">
     <form class="row justify-content-center" method="get" asp-controller="Exercise" asp-action="Index">
     
@@ -31,35 +31,47 @@
     
 </div>
 
-<div id="results-container">
+<div >
 </div>
-@if (Model != null && Model.Any())
-{
-    <ul>
-        @foreach (var exercise in Model)
-        {
-            <h3>@exercise.Name</h3>
-            <div class="save-btn d-flex flex-row-reverse p2"><a href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">Save as a workout</a></div>
-            <p><strong>Body Part: @exercise.BodyPart </strong></p>
-            <p><strong>Target Muscle: @exercise.Target </strong></p>
-            <p>Equipment Used: @exercise.Equipment</p>
-            <img src="@exercise.GifUrl" alt="@exercise.Name" width="200" height="200">
+
+    @if (Model != null && Model.Any())
+    {
+        <div id="results-container">
+            @foreach (var exercise in Model)
+            {
             
-            <h4>Instructions:</h4>
-            <ul>
-                @foreach (var step in exercise.Instructions)
-                {
-                    <li>@step</li>
-                }
-            </ul>
-        }
-    </ul>
-}
-else if (Model != null)
-{
-    <p>No exercises found.</p>
-}
+                <div class="card shadow-sm rounded-3 mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="card-title">@exercise.Name</h3>
+                            <a class="btn btn-primary" href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">Save as workout</a></div>
+                        <p><strong>Body Part: </strong>@exercise.BodyPart</p>
+                        <p><strong>Target Muscle: </strong>@exercise.Target </p>
+                        <p><strong>Equipment Used: </strong>@exercise.Equipment</p>
+                        <img src="@exercise.GifUrl" alt="@exercise.Name" width="200" height="200">
+
+                        <p></p>
+                        <p><strong>Instructions:</strong></p>
+                        <ul>
+                            @foreach (var step in exercise.Instructions)
+                            {
+                                <li>@step</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            
+            }
+        </div>
+    
+                
+    }
+    else if (Model != null)
+    {
+        <p>No exercises found.</p>
+    }
 </div>
+
 
 <script src="~/js/search.js"></script>
 </body>
