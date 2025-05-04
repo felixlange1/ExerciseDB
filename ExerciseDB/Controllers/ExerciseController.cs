@@ -16,14 +16,14 @@ public class ExerciseController : Controller
     }
 
 
-    
+    // Handles exercise search and returns formatted results to the view:
     public async Task<IActionResult> Index(string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
         {
             return View();
         }
-        var textInfo = new CultureInfo("en-US").TextInfo;
+        var textInfo = new CultureInfo("en-US").TextInfo; // Used to capitalize each word in exercise names
         
         var jsonResponse= await _apiService.SearchExercisesAsync(searchTerm);
         Console.WriteLine($"API Response: {jsonResponse}");
@@ -32,17 +32,18 @@ public class ExerciseController : Controller
         
         foreach (var exercise in exercises)
         {
-            exercise.Name = textInfo.ToTitleCase(exercise.Name);
+            exercise.Name = textInfo.ToTitleCase(exercise.Name); // Used to capitalize each word in the exercise name
         }
         
         return View(exercises);
     }
 
+    // Method called via JavaScript (search.js) for dynamic live search:
     public async Task<IActionResult> LiveSearch(string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
         {
-            return Json(new List<Exercise>());
+            return Json(new List<Exercise>()); // returns empty Json to JS
         }
         var textInfo = new CultureInfo("en-US").TextInfo;
         
@@ -56,21 +57,5 @@ public class ExerciseController : Controller
         
         return Json(exercises);
     }
-    
-    // [HttpPost]
-    // public async Task<IActionResult> ViewExercise()
-    // {
-    //     using (var reader = new StreamReader(Request.Body))
-    //     {
-    //         var response = await reader.ReadToEndAsync();
-    //         var exercise = JsonConvert.DeserializeObject<Exercise>(response);
-    //         if (exercise == null)
-    //         {
-    //             return BadRequest("Exercise is null");
-    //         }
-    //         return View(exercise);
-    //     }
-    //
-    // }
     
 }

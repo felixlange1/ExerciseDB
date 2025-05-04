@@ -1,6 +1,13 @@
+@* 
+    This view displays all workouts in a table format. 
+    Includes search, sorting by date/name, and max set logic for dynamic columns.
+*@
+
 @using Microsoft.AspNetCore.Http
 @model IEnumerable<Workout>
 
+@* Checking the max number of sets to display correct number of columns in the view for the sets *@
+@* If no workouts exist, maxSets will be 0 to avoid rendering extra table columns *@
 @{
     var maxSets = Model.Any() ? Model.Max(m => m.Sets.Count) : 0;
 }
@@ -12,14 +19,15 @@
     <title>Workouts</title>
 </head>
 <body>
+@* Search form to filter workouts by exercise name *@
 <div class="d-flex flex-row-reverse mb-3 mt-1">
     <form method="get" asp-controller="Workout" asp-action="Index">
         <div class="input-group">
-        <span class="input-group-text bg-primary text-white rounded-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search --bs-primary" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg></span>
-        <input type="text" name="searchString" class="form-control" placeholder="Search for a workout"/>
+            <span class="input-group-text bg-primary text-white rounded-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search --bs-primary" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg></span>
+            <input type="text" name="searchString" class="form-control" placeholder="Search for a workout"/>
         </div>
     </form>
 </div>
@@ -30,7 +38,7 @@
             <h1 class="card-title">All Workouts</h1>
             <a class="btn btn-primary" href="/Workout/CreateWorkout/">Add Workout</a>
         </div>
-        
+
         @if (!Model.Any())
         {
             <p class="text-center">No workouts found.</p>
@@ -46,6 +54,7 @@
                         <th rowspan="2" class="align-middle">Date <a class="sort-arrows" asp-action="Index" asp-route-searchString="@(ViewContext.HttpContext.Request.Query["searchString"])" asp-route-sortBy="Date">&#9660;</a><a class="sort-arrows" asp-action="Index" asp-route-searchString="@(ViewContext.HttpContext.Request.Query["searchString"])" asp-route-sortBy="DateDesc">&#9650;</a></th>
                         <th rowspan="2" class="align-middle">Exercise <a class="sort-arrows" asp-action="Index" asp-route-searchString="@(ViewContext.HttpContext.Request.Query["searchString"])" asp-route-sortBy="Name">&#9660;</a><a class="sort-arrows" asp-action="Index" asp-route-searchString="@(ViewContext.HttpContext.Request.Query["searchString"])" asp-route-sortBy="NameDesc">&#9650;</a></th>
 
+                        @* Dynamically create headers for the max number of sets found across all workouts *@
                         @for (int i = 1; i <= maxSets; i++)
                         {
                             <th class="text-center" colspan="2">Set @i</th>
@@ -54,6 +63,7 @@
                         <th rowspan="2"></th>
                     </tr>
                     <tr>
+                        @* Display dynamic table headers for sets *@
                         @for (int i = 1; i <= maxSets; i++)
                         {
                             <th>Weight</th>
@@ -62,6 +72,8 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    @* Display each workout: *@
                     @foreach (var workout in @Model)
                     {
                         <tr class="align-middle">
@@ -69,6 +81,7 @@
                             <td>@workout.WorkoutDate.ToString("yyyy-MM-dd")</td>
                             <td><a class="exercise-link" href="/Workout/ViewWorkout/@workout.WorkoutId">@workout.ExerciseName</a></td>
 
+                            @* Displays each set’s weight and reps, or blank columns if none exist. *@
                             @for (int i = 0; i < maxSets; i++)
                             {
                                 if (i < workout.Sets.Count)
@@ -76,7 +89,7 @@
                                     <td>@workout.Sets[i].Weight</td>
                                     <td>@workout.Sets[i].Reps</td>
                                 }
-                                else
+                                else @* If there are fewer sets than maxSets, fill empty columns *@
                                 {
                                     <td></td>
                                     <td></td>
@@ -85,7 +98,7 @@
 
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-1">
-                                    <a class="btn btn-outline-secondary btn-sm" href="/Workout/UpdateWorkout/@workout.WorkoutId">
+                                    <a class="btn btn-outline-secondary btn-sm" asp-action="UpdateWorkout" asp-route-id="@workout.WorkoutId">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil me-1" viewBox="0 0 16 16">
                                             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
                                         </svg> Edit</a>
@@ -113,6 +126,6 @@
         }
     </div>
 </div>
-        
+
 </body>
 </html>

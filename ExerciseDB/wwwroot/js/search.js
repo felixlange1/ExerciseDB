@@ -1,5 +1,3 @@
-console.log("TESTY TEST2")
-
 const searchInput = document.querySelector(".exercise-search");
 const suggestionBox = document.getElementById("search-suggestions");
 const resultsContainer = document.getElementById("results-container");
@@ -26,7 +24,7 @@ searchInput.addEventListener("input", async function (e) {
         }
         
         exercises.forEach((exercise, index) => {
-            // let capitalizedName = toTitleCase(exercise.name);
+            
             const listItem = document.createElement("div");
             
             listItem.textContent = exercise.name;
@@ -54,7 +52,7 @@ searchInput.addEventListener("input", async function (e) {
 });
 
 function displaySearchResults(exercise) {
-    resultsContainer.innerHTML= "";
+    
     resultsContainer.innerHTML = `
         <div class="card shadow-sm rounded-3 mb-3">
             <div class="card-body">

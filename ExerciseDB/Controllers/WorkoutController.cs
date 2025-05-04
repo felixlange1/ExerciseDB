@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExerciseDB.Controllers;
 
+// Controller for managing workouts: creating, viewing, updating, and deleting
 public class WorkoutController : Controller
 {
     private readonly IWorkoutRepository repo;
@@ -14,6 +15,8 @@ public class WorkoutController : Controller
         this.repo = repo;
     }
 
+    
+    // Index method (for all workouts) accepts a sortBy and searchString to automatically sort results:
     public IActionResult Index(string sortBy, string searchString)
     {
         var workouts = repo.GetAllWorkouts(sortBy, searchString);
@@ -27,6 +30,7 @@ public class WorkoutController : Controller
         return View(workout);
     }
 
+    
     public IActionResult UpdateWorkout(int id)
     {
         Workout workout = repo.GetWorkout(id);
@@ -37,6 +41,7 @@ public class WorkoutController : Controller
         return View(workout);
     }
 
+    // Handles form submission for workout updates, including deletion of sets.
     public IActionResult UpdateWorkoutToDatabase(Workout workout, List<int> DeletedSetIds)
     {
         Console.WriteLine("WorkoutId received from form: " + workout.WorkoutId);
@@ -49,26 +54,31 @@ public class WorkoutController : Controller
             Console.WriteLine("Number of sets: " + workout.Sets.Count);
         }
 
-        foreach (var id in DeletedSetIds)
+        // Delete sets that the user marked for removal:
+        if (DeletedSetIds != null && DeletedSetIds.Any())
         {
-            repo.DeleteSet(id);
+            foreach (var id in DeletedSetIds)
+            {
+                repo.DeleteSet(id);
+            }
         }
-   //     workout.NumberOfSets = workout.Sets.Count;
+
         repo.UpdateWorkout(workout);
         return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
     }
 
     public IActionResult CreateWorkout(string exerciseName)
     {
+        // Passes selected exercise name to the view using ViewBag, for pre-filling the exercise name field:
+        ViewBag.ExerciseName = exerciseName; 
         
-        ViewBag.ExerciseName = exerciseName;
         var workout = new Workout();
 
         return View(workout);
     }
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
-   //     workoutToCreate.NumberOfSets = workoutToCreate.Sets.Count;
+   
         repo.CreateWorkout(workoutToCreate);
         return RedirectToAction("Index");
     }
@@ -78,13 +88,5 @@ public class WorkoutController : Controller
         repo.DeleteWorkout(id);
         return RedirectToAction("Index");
     }
-
-    // public IActionResult SearchWorkout(string searchString, string sortBy)
-    // {
-    //     ViewBag.searchString = searchString;
-    //     
-    //     var workouts = repo.GetAllWorkouts(sortBy).Where(w => w.ExerciseName.Contains(searchString));
-    //     return View("Index", workouts);
-    // }
     
 }

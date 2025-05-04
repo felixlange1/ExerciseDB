@@ -1,9 +1,11 @@
+// This adds sets when creating or updating a workout:
 document.getElementById("add-set-btn").addEventListener("click", function() {
 
     
 
     const newSet = document.createElement("div")
 
+    // HTML for a new set:
     newSet.innerHTML = 
     `<div class="row me-2">
         <div class="set-template ms-2">
@@ -34,7 +36,11 @@ document.getElementById("add-set-btn").addEventListener("click", function() {
     setCount++;
 })
 
+
+// Using event delegation here since the Delete Set Button initially only exists for sets already saved in the database,
+// not the dynamically added ones, so we're attaching addEventListener to the parent container:
 document.getElementById("sets-container").addEventListener("click", function(e) {
+
     if (e.target.classList.contains("delete-saved-set-btn")) {
         const confirmed = confirm("Are you sure you want to delete this set?");
         if (!confirmed) return;
@@ -44,7 +50,8 @@ document.getElementById("sets-container").addEventListener("click", function(e) 
         const setElement = e.target.closest(".set-group");
         if (setElement) setElement.remove();
         
-        // Adds hidden input to track setIDs of sets to be deleted:
+        // Adds hidden input to track setIDs of sets to be deleted, so it can then be submitted to the controller when
+        // submitting the form:
         const setsToDelete = document.createElement("input");
         setsToDelete.type = "hidden";
         setsToDelete.name = "DeletedSetIds";
@@ -53,6 +60,8 @@ document.getElementById("sets-container").addEventListener("click", function(e) 
     }
 });
 
+// There's a second type of Delete Set button for handling unsaved, newly added sets. There's no need to keep track of setId,
+// etc. and submit this to the controller:
 document.getElementById("sets-container").addEventListener("click", function (e) {
     if (e.target.classList.contains("delete-set-btn")) {
         e.preventDefault();
@@ -60,6 +69,8 @@ document.getElementById("sets-container").addEventListener("click", function (e)
         setCount--;
     }
 });
+
+// The below code is for the Create Workout form, so the date is automatically today's date:
 
 const dateInput = document.getElementById("workout-date");
 const today = new Date().toLocaleDateString('en-CA');

@@ -21,16 +21,8 @@ public class ApiService
         _httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", _apiHost);
     }
 
-    // public async Task<string> GetExercisesAsync(int limit = 10, int offset = 0)
-    // {
-    //     var requestUri = $"{_baseUrl}?limit={limit}&offset={offset}";
-    //     var response = await _httpClient.GetAsync(requestUri);
-    //
-    //     response.EnsureSuccessStatusCode();
-    //     return await response.Content.ReadAsStringAsync();
-    // }
 
-
+    // Method to call external API to get exercise data:
     public async Task<string> SearchExercisesAsync(string searchTerm)
     {
             var requestUri = $"{_baseUrl}/name/{searchTerm}?offset=0&limit=10";

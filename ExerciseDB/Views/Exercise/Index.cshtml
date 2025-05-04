@@ -33,36 +33,36 @@
 
 <div >
 </div>
-
+<div id="results-container">
     @if (Model != null && Model.Any())
     {
-        <div id="results-container">
-            @foreach (var exercise in Model)
-            {
+        
+        @foreach (var exercise in Model)
+        {
             
-                <div class="card shadow-sm rounded-3 mb-3">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h3 class="card-title">@exercise.Name</h3>
-                            <a class="btn btn-primary" href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">Save as workout</a></div>
-                        <p><strong>Body Part: </strong>@exercise.BodyPart</p>
-                        <p><strong>Target Muscle: </strong>@exercise.Target </p>
-                        <p><strong>Equipment Used: </strong>@exercise.Equipment</p>
-                        <img src="@exercise.GifUrl" alt="@exercise.Name" width="200" height="200">
+            <div class="card shadow-sm rounded-3 mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">@exercise.Name</h3>
+                        <a class="btn btn-primary" href="/Workout/CreateWorkout/?exerciseName=@exercise.Name">Save as workout</a></div>
+                    <p><strong>Body Part: </strong>@exercise.BodyPart</p>
+                    <p><strong>Target Muscle: </strong>@exercise.Target </p>
+                    <p><strong>Equipment Used: </strong>@exercise.Equipment</p>
+                    <img src="@exercise.GifUrl" alt="@exercise.Name" width="200" height="200">
 
-                        <p></p>
-                        <p><strong>Instructions:</strong></p>
-                        <ul>
-                            @foreach (var step in exercise.Instructions)
-                            {
-                                <li>@step</li>
-                            }
-                        </ul>
-                    </div>
+                    <p></p>
+                    <p><strong>Instructions:</strong></p>
+                    <ul>
+                        @foreach (var step in exercise.Instructions)
+                        {
+                            <li>@step</li>
+                        }
+                    </ul>
                 </div>
+            </div>
             
-            }
-        </div>
+        }
+        
     
                 
     }
@@ -70,6 +70,7 @@
     {
         <p>No exercises found.</p>
     }
+</div>
 </div>
 
 

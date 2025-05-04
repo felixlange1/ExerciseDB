@@ -15,6 +15,7 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
+    // Retrieves a single workout:
     public Workout GetWorkout(int id)
     {
         var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
@@ -32,58 +33,18 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
-    
-    // public IEnumerable<Workout> SearchWorkout(string searchString, string sortBy)
-    // {
-    //     string query = "SELECT * FROM Workouts WHERE(ExerciseName) LIKE %@searchString%";
-    //
-    //
-    //     
-    //     switch (sortBy)
-    //     {
-    //         case "Name":
-    //             query += " ORDER BY ExerciseName, WorkoutDate";
-    //             break;
-    //         case "NameDesc":
-    //             query += " ORDER BY ExerciseName DESC, WorkoutDate";
-    //             break;
-    //         case "Date":
-    //             query += " ORDER BY WorkoutDate";
-    //             break;
-    //         case "DateDesc":
-    //             query += " ORDER BY WorkoutDate DESC";
-    //             break;
-    //         default:
-    //             query += " ORDER BY WorkoutDate DESC";
-    //             break;
-    //     }
-    //
-    //     var workouts = _connection.Query<Workout>(query, new { searchString = $"%{searchString.ToLower()}%" }).ToList();
-    //     
-    //     foreach (var workout in workouts)
-    //     {
-    //         var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
-    //         workout.Sets = sets;
-    //     }
-    //     
-    //     return workouts;
-    // }
-    //
-    
-    
-    
-    
-    
     public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString)
     {
-        
+        // Standard Query to get all workouts:
         var query = new StringBuilder("SELECT * FROM Workouts");
         
+        // Adds searchString if a searchString exists:
         if (searchString != null)
         {
             query.Append(" WHERE (ExerciseName) LIKE @searchString");
         }
 
+        // Adds how results should be sorted:
         switch (sortBy)
         {
             case "Name":
@@ -105,6 +66,7 @@ public class WorkoutRepository : IWorkoutRepository
 
         IEnumerable<Workout> workouts;
         
+        // Calls database two different ways, depending on whether there's a searchString or not:
         if (searchString != null)
         {
             workouts = _connection.Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
@@ -114,6 +76,7 @@ public class WorkoutRepository : IWorkoutRepository
             workouts = _connection.Query<Workout>(query.ToString()).ToList();
         }
         
+        // Gets the sets from the databse:
         foreach (var workout in workouts)
         {
             var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
@@ -123,6 +86,7 @@ public class WorkoutRepository : IWorkoutRepository
         return workouts;
     }
 
+    // Updates workout and either updates existing sets or inserts new ones:
     public void UpdateWorkout(Workout workout)
     {
         _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", 
@@ -137,6 +101,7 @@ public class WorkoutRepository : IWorkoutRepository
         {
             Console.WriteLine($"Set ID: {set.SetId}, Set #: {set.SetNumber}, Reps: {set.Reps}, Weight: {set.Weight}");
 
+            // Checking for each set if set needs to be added newly or is an existing set and needs to be updated:
             if (set.SetId > 0)
             {
                 _connection.Execute(
@@ -166,6 +131,8 @@ public class WorkoutRepository : IWorkoutRepository
         }
     }
 
+    // Filter out sets with zero reps or weight before inserting (to avoid automatic 0's for weights and reps
+    // when a set is empty:
     public void CreateWorkout(Workout workout)
     {
         workout.Sets = workout.Sets.Where(set => set.Reps > 0 && set.Weight > 0).ToList();
@@ -176,6 +143,7 @@ public class WorkoutRepository : IWorkoutRepository
                 exerciseName = workout.ExerciseName, sets = workout.Sets, workoutdate = workout.WorkoutDate, notes = workout.Notes
             });
         
+        // Grabs last created workout ID to then create corresponding sets:
         int workoutId = _connection.QuerySingle<int>("SELECT LAST_INSERT_ID()");
 
         foreach (var set in workout.Sets)
