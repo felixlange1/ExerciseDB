@@ -1,3 +1,5 @@
+@* This view contains a form to create new workouts: *@
+
 @model Workout
 
 <!DOCTYPE html>
@@ -21,6 +23,7 @@
         <h2 class="ps-2">Add Workout</h2>
         <div>
             <div>
+                @* Form to create a new workout. Starts with 3 default sets: *@
                 @using (Html.BeginForm("CreateWorkoutToDatabase", "Workout", "Post"))
                 {
                     <div class="container">
@@ -33,7 +36,11 @@
 
                         <div class="form-group position-relative mb-4">
                             <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+                            
+                            @* This container is used by JS (search.js) to display live search results: *@
                             <div id="search-suggestions"></div>
+                            
+                            @* Uses @ViewBag to pass in exercise name from controller, if any:*@
                             <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" id="exercise-name" data-mode="form" class="exercise-search form-control"/>
                         </div>
 
@@ -49,6 +56,7 @@
                                             <button type="button" class="btn-close delete-set-btn mb-2"></button>
                                         </div>
 
+                                        @* Hidden input to bind SetId for model binding; value is 0 for new sets: *@
                                         <input type="hidden" name="Sets[@i].SetId" value="0"/>
 
                                         <input type="hidden" name="Sets[@i].SetNumber" value="@(i + 1)" class="form-control"/>
@@ -67,7 +75,8 @@
                             }
 
                         </div>
-                    
+
+                        @* Button to add sets dynamically using JavaScript (createWorkout.js) *@
                         <button type="button" id="add-set-btn" class="btn btn-secondary mt-2 mb-4">Add Set</button>
                         <div class="col-md-8">
                             <textarea class="form-control" asp-for="Notes" name="notes" rows="5" width="50%" placeholder="Enter any notes here..."></textarea>
@@ -76,7 +85,7 @@
                             <input type="submit" value="Add Workout" class="btn btn-primary mt-4"/>
                         </div>
                     </div>
-                    
+
                 }
             </div>
             </div>
@@ -84,7 +93,9 @@
     </div>
 </div>
 <script>
+    // Sets initial setCount to 3, since there's 3 default sets:
     let setCount = 3;
+
 </script>
 <script src="~/js/search.js"></script>
 <script src="~/js/createWorkout.js"></script>

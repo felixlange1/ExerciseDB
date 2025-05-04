@@ -1,4 +1,13 @@
+@* 
+    This view displays a single workout, including the Notes property. 
+    Includes max set logic for dynamic columns.
+    This view follows the same basic logic as the Index view.
+*@
+
 @model Workout
+
+@* Checking the max number of sets to display correct number of columns in the view for the sets *@
+@* If no workouts exist, maxSets will be 0 to avoid rendering extra table columns *@
 @{
     var maxSets = Model.Sets.Any() ? Model.Sets.Count : 0;
 }

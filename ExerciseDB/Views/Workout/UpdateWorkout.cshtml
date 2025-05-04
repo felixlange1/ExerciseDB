@@ -1,3 +1,5 @@
+@* This view contains a form to update a workout: *@
+
 @model Workout
 
 <!DOCTYPE html>
@@ -19,6 +21,7 @@
         <div class="card-body">
             <h2 class="ps-2">Update Workout</h2>
             <div>
+                @* Form posts updated workout data to the UpdateWorkoutToDataBase action in WorkoutController *@
                 @using (Html.BeginForm("UpdateWorkoutToDataBase", "Workout", "Post"))
                 {
                     <div class="container">
@@ -38,9 +41,11 @@
                         </div>
 
                         <div id="sets-container">
+                            @* Displays existing sets, if any: *@
                             @if (Model.Sets.Any())
 
                             {
+                                @* Loop through each existing set and render its fields with correct binding names for model binding *@
                                 for (int i = 0; i < Model.Sets.Count; i++)
 
                                 {
@@ -48,11 +53,13 @@
                                         <div class="set-template set-group ms-2">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h3 class="set-heading">Set @(i + 1)</h3>
+
+                                                @* Button to mark this set for deletion using JavaScript (adds its ID to a hidden container) *@
                                                 <button type="button" class="btn-close delete-saved-set-btn mb-2" data-set-id="@Model.Sets[i].SetId"></button>
                                             </div>
 
+                                            @* Hidden inputs to preserve SetId and SetNumber so they can be tracked correctly when the form is submitted: *@
                                             <input type="hidden" name="Sets[@i].SetId" value="@Model.Sets[i].SetId"/>
-
                                             <input type="hidden" name="Sets[@i].SetNumber" class="form-control" value="@Model.Sets[@i].SetNumber"/>
 
                                             <div class="row">
@@ -72,9 +79,13 @@
                         </div>
 
 
-
+                        @* Container to keep track of any deleted sets: *@
                         <div id="deleted-set-ids"></div>
+                        
+                        @* Button to add sets: *@
                         <button type="button" id="add-set-btn" class="btn btn-secondary mt-2 mb-4">Add Set</button>
+
+                        @* Notes for the workout; bound to the Workout.Notes property *@
                         <div class="col-md-8">
                             <textarea asp-for="Notes" name="notes" class="form-control" rows="5" width="50%" placeholder="Enter any notes here..." value="@Model.Notes"></textarea>
                         </div>
@@ -88,10 +99,12 @@
     </div>
 </div>
 
-
+@* Initializes setCount to track number of existing sets for dynamic additions in JS *@
 <script>
     let setCount = @(Model.Sets == null || !Model.Sets.Any() ? 0 : Model.Sets.Count());
 </script>
+
+@* JS handles dynamic set addition logic *@
 <script src="~/js/createWorkout.js"></script>
 
 </body>
