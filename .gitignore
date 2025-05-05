@@ -1,1 +1,50 @@
+
+## Build results
+bin/
+obj/
+out/
+
+## Rider-specific files
+.idea/
+*.sln.iml
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## ASP.NET configuration
 appsettings.json
+appsettings.Development.json
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+
+## Rider plugin settings
+.idea/.idea.*
+.idea/workspace.xml
+
+## EF Migrations history
+Migrations/
+
+## Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+## Others
+*.db
