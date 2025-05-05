@@ -15,7 +15,7 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
-    // Retrieves a single workout:
+    // Retrieves a workout by ID, including its associated sets.
     public Workout GetWorkout(int id)
     {
         var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
@@ -33,6 +33,7 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
+    // Retrieves all workouts, optionally filtered by a search string and sorted by the specified criteria.
     public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString)
     {
         // Standard Query to get all workouts:
@@ -86,7 +87,7 @@ public class WorkoutRepository : IWorkoutRepository
         return workouts;
     }
 
-    // Updates workout and either updates existing sets or inserts new ones:
+    // Updates an existing workout and its sets. Inserts any new sets and updates existing ones.
     public void UpdateWorkout(Workout workout)
     {
         _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", 
@@ -130,9 +131,9 @@ public class WorkoutRepository : IWorkoutRepository
             
         }
     }
-
-    // Filter out sets with zero reps or weight before inserting (to avoid automatic 0's for weights and reps
-    // when a set is empty:
+    
+    
+    // Creates a new workout and its associated sets, skipping any sets with zero reps or weight.
     public void CreateWorkout(Workout workout)
     {
         workout.Sets = workout.Sets.Where(set => set.Reps > 0 && set.Weight > 0).ToList();
@@ -156,12 +157,14 @@ public class WorkoutRepository : IWorkoutRepository
         }
     }
 
+    // Deletes a workout and all of its associated sets from the database.
     public void DeleteWorkout(int id)
     {
         _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = id });
         _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = id });
     }
 
+    // Deletes a single set from the database using its set ID.
     public void DeleteSet(int id)
     {
         _connection.Execute("DELETE FROM workout_sets WHERE SetId = @setId;", new { setId = id });

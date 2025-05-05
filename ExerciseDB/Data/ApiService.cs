@@ -3,12 +3,17 @@ using ExerciseDB.Models;
 
 namespace ExerciseDB;
 using System.Net.Http.Headers;
+
+// Service responsible for communicating with the external exercise API via RapidAPI.
 public class ApiService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
     private readonly string _baseUrl;
     private readonly string _apiHost;
+  
+    
+    // Initializes HttpClient with API key, host, and base URL from configuration (appsettings.json).
     public ApiService(HttpClient httpClient, IConfiguration config)
     {
         _httpClient = httpClient;
@@ -22,7 +27,8 @@ public class ApiService
     }
 
 
-    // Method to call external API to get exercise data:
+    // Sends a GET request to the external exercise API to search for exercises by name.
+    // // Returns the raw JSON response as a string.
     public async Task<string> SearchExercisesAsync(string searchTerm)
     {
             var requestUri = $"{_baseUrl}/name/{searchTerm}?offset=0&limit=10";

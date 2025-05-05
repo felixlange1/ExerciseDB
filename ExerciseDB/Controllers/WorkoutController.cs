@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExerciseDB.Controllers;
 
-// Controller for managing workouts: creating, viewing, updating, and deleting
+// Controller responsible for handling workout-related views and actions, including create, read, update, and delete operations.
 public class WorkoutController : Controller
 {
     private readonly IWorkoutRepository repo;
@@ -16,7 +16,7 @@ public class WorkoutController : Controller
     }
 
     
-    // Index method (for all workouts) accepts a sortBy and searchString to automatically sort results:
+    // Displays a list of all workouts, optionally sorted and/or filtered by a search string.
     public IActionResult Index(string sortBy, string searchString)
     {
         var workouts = repo.GetAllWorkouts(sortBy, searchString);
@@ -24,6 +24,7 @@ public class WorkoutController : Controller
     }
     
     
+    // Displays details for a single workout, including its sets.
     public IActionResult ViewWorkout(int id)
     {
         var workout = repo.GetWorkout(id);
@@ -31,6 +32,7 @@ public class WorkoutController : Controller
     }
 
     
+    // Loads the update form for a specific workout by ID.
     public IActionResult UpdateWorkout(int id)
     {
         Workout workout = repo.GetWorkout(id);
@@ -41,7 +43,7 @@ public class WorkoutController : Controller
         return View(workout);
     }
 
-    // Handles form submission for workout updates, including deletion of sets.
+    // Handles form submission for workout updates, including updating and/or deletion of sets.
     public IActionResult UpdateWorkoutToDatabase(Workout workout, List<int> DeletedSetIds)
     {
         Console.WriteLine("WorkoutId received from form: " + workout.WorkoutId);
@@ -67,6 +69,7 @@ public class WorkoutController : Controller
         return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
     }
 
+    // Loads the form for creating a new workout, optionally pre-filling the exercise name.
     public IActionResult CreateWorkout(string exerciseName)
     {
         // Passes selected exercise name to the view using ViewBag, for pre-filling the exercise name field:
@@ -76,6 +79,8 @@ public class WorkoutController : Controller
 
         return View(workout);
     }
+    
+    // Handles form submission to create a new workout and its sets in the database.
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
    
@@ -83,6 +88,7 @@ public class WorkoutController : Controller
         return RedirectToAction("Index");
     }
 
+    // Deletes a workout and redirects to the index view.
     public IActionResult DeleteWorkout(int id)
     {
         repo.DeleteWorkout(id);

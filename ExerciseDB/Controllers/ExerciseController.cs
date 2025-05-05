@@ -6,6 +6,7 @@ using System.Globalization;
 
 namespace ExerciseDB.Controllers;
 
+// Controller responsible for handling exercise search via external API and returning results to views or JavaScript.
 public class ExerciseController : Controller
 {
     private readonly ApiService _apiService;
@@ -16,7 +17,7 @@ public class ExerciseController : Controller
     }
 
 
-    // Handles exercise search and returns formatted results to the view:
+    // Sends search requests to an external exercise API, formats results, and returns them to the view.
     public async Task<IActionResult> Index(string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
@@ -38,7 +39,8 @@ public class ExerciseController : Controller
         return View(exercises);
     }
 
-    // Method called via JavaScript (search.js) for dynamic live search:
+    
+    // Called via JavaScript for live search. Sends a request to an external API and returns matching exercises as JSON.
     public async Task<IActionResult> LiveSearch(string searchTerm)
     {
         if (string.IsNullOrEmpty(searchTerm))
