@@ -48,6 +48,8 @@ public class ExerciseController : Controller
         var textInfo = new CultureInfo("en-US").TextInfo;
         
         var jsonResponse = await _apiService.SearchExercisesAsync(searchTerm);
+        Console.WriteLine($"API Live Search Response: {jsonResponse}");
+        
         var exercises = JsonConvert.DeserializeObject<List<Exercise>>(jsonResponse);
         
         foreach (var exercise in exercises)
