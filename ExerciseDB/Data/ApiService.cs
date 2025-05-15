@@ -28,7 +28,7 @@ public class ApiService
 
 
     // Sends a GET request to the external exercise API to search for exercises by name.
-    // // Returns the raw JSON response as a string.
+    // Returns the raw JSON response as a string.
     public async Task<string> SearchExercisesAsync(string searchTerm)
     {
             var requestUri = $"{_baseUrl}/name/{searchTerm}?offset=0&limit=10";

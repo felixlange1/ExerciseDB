@@ -18,17 +18,23 @@ public class WorkoutRepository : IWorkoutRepository
     // Retrieves a workout by ID, including its associated sets.
     public Workout GetWorkout(int id)
     {
-        var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
-        var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = id }).ToList();
-      
+        using var workoutsWithSets = _connection.QueryMultiple(
+            "GetWorkoutWithSets", 
+            new { p_workoutId = id },
+            commandType: CommandType.StoredProcedure);
+        
+        // var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
+        // var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = id }).ToList();
+        
+        var workout = workoutsWithSets.ReadSingleOrDefault<Workout>();
+        
         if (workout == null)
         {
             throw new Exception("Workout not found");
         }
         
-            workout.Sets = set;
-        
-        
+            workout.Sets = workoutsWithSets.Read<WorkoutSet>().ToList();
+            
         return workout;
     }
 
