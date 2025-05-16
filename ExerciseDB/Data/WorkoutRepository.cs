@@ -15,7 +15,7 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     
-    // Retrieves a workout by ID, including its associated sets.
+    // Retrieves a workout by ID, including its associated sets. Uses SQL stored procedures.
     public Workout GetWorkout(int id)
     {
         using var workoutsWithSets = _connection.QueryMultiple(
@@ -23,6 +23,7 @@ public class WorkoutRepository : IWorkoutRepository
             new { p_workoutId = id },
             commandType: CommandType.StoredProcedure);
         
+        // WITHOUT STORED PROCEDURES:
         // var workout = _connection.QuerySingleOrDefault<Workout>("SELECT * FROM Workouts WHERE WorkoutId = @workoutId", new { workoutId = id });
         // var set = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = id }).ToList();
         
@@ -163,17 +164,27 @@ public class WorkoutRepository : IWorkoutRepository
         }
     }
 
-    // Deletes a workout and all of its associated sets from the database.
+    // Deletes a workout and all of its associated sets from the database, using SQL stored procedures.
     public void DeleteWorkout(int id)
     {
-        _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = id });
-        _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = id });
+        _connection.Execute("DeleteWorkoutAndSets",
+            new { p_workoutId = id },
+            commandType: CommandType.StoredProcedure);
+        
+        // WITHOUT STORED PROCEDURES:
+        // _connection.Execute("DELETE FROM workout_sets WHERE WorkoutId = @workoutId;", new { workoutId = id });
+        // _connection.Execute("DELETE FROM Workouts WHERE WorkoutId = @workoutId;", new { workoutId = id });
     }
 
-    // Deletes a single set from the database using its set ID.
+    // Deletes a single set from the database using its set ID, using stored procedures.
     public void DeleteSet(int id)
     {
-        _connection.Execute("DELETE FROM workout_sets WHERE SetId = @setId;", new { setId = id });
+        _connection.Execute("DeleteSet",
+            new { p_setId = id },
+            commandType: CommandType.StoredProcedure);
+        
+        // WITHOUT STORED PROCEDURES:    
+        // _connection.Execute("DELETE FROM workout_sets WHERE SetId = @setId;", new { setId = id });
     }
 
 }
