@@ -7,10 +7,10 @@
 <html>
 <head>
     <title>Add a New Workout</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+<nav class="breadcrumb-container" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item"><a asp-controller="Workout" asp-action="Index">All Workouts</a></li>
@@ -18,7 +18,7 @@
     </ol>
 </nav>
 <div class="d-flex justify-content-center">
-    <div class="card rounded-3 col-md-6">
+    <div class="card rounded-3 w-100 mx-auto form-wrapper">
         <div class="card-body">
         <h2 class="ps-2">Add Workout</h2>
         <div>

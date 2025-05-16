@@ -84,10 +84,16 @@ public class WorkoutRepository : IWorkoutRepository
             workouts = _connection.Query<Workout>(query.ToString()).ToList();
         }
         
-        // Gets the sets from the databse:
+        // Gets the sets from the database (using a stored procedure):
         foreach (var workout in workouts)
         {
-            var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
+            var sets = _connection.Query<WorkoutSet>(
+                "GetWorkoutSets",
+                new { p_workoutId = workout.WorkoutId },
+                commandType: CommandType.StoredProcedure).ToList();
+            
+            // GETTING SETS WITHOUT USING A STORED PROCEDURE:
+            // var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
             workout.Sets = sets;
         }
 
