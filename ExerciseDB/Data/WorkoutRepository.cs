@@ -3,6 +3,7 @@ using System.Text;
 using ExerciseDB.Models;
 using Dapper;
 
+
 namespace ExerciseDB;
 
 public class WorkoutRepository : IWorkoutRepository
@@ -88,7 +89,7 @@ public class WorkoutRepository : IWorkoutRepository
         foreach (var workout in workouts)
         {
             var sets = _connection.Query<WorkoutSet>(
-                "GetWorkoutSets",
+                "dbo.GetWorkoutSets",
                 new { p_workoutId = workout.WorkoutId },
                 commandType: CommandType.StoredProcedure).ToList();
             

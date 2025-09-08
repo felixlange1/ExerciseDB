@@ -6,6 +6,8 @@ using ExerciseDB;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 
 
@@ -15,15 +17,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// builder.Services.AddScoped<IDbConnection>((s) =>
+// {
+//     IDbConnection conn = new MySqlConnection(builder.Configuration.GetConnectionString("exercise"));
+//     conn.Open();
+//     return conn;
+// });
+
 builder.Services.AddScoped<IDbConnection>((s) =>
 {
-    IDbConnection conn = new MySqlConnection(builder.Configuration.GetConnectionString("exercise"));
+
+    IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
     conn.Open();
     return conn;
 });
 
+
 builder.Services.AddTransient<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddHttpClient<ApiService>();
+
+
+
 
 // builder.Services.AddSwaggerGen(c =>
 // {
