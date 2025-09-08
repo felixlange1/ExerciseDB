@@ -26,8 +26,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IDbConnection>((s) =>
 {
-
-    IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
+    var connString = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+    if (string.IsNullOrEmpty(connString))
+        throw new Exception("AZURE_SQL_CONNECTIONSTRING environment variable not set!");
+//    IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
+    IDbConnection conn = new SqlConnection(connString);
     conn.Open();
     return conn;
 });
