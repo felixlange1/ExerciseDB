@@ -50,7 +50,7 @@ public class WorkoutRepository : IWorkoutRepository
     {
         // Standard Query to get all workouts:
         var query = new StringBuilder(
-            "SELECT WorkoutID AS WorkoutId, ExerciseName, WorkoutDate, Notes FROM dbo.Workouts");
+            "SELECT WorkoutID AS WorkoutId, ExerciseName, WorkoutDate, Notes FROM Workouts");
 
         // Adds searchString if a searchString exists:
         if (searchString != null)
@@ -98,7 +98,7 @@ public class WorkoutRepository : IWorkoutRepository
         foreach (var workout in workouts)
         {
             var sets = _connection.Query<WorkoutSet>(
-                "dbo.GetWorkoutSets",
+                "GetWorkoutSets",
                 new { p_workoutId = workout.WorkoutId },
                 commandType: CommandType.StoredProcedure).ToList();
 
