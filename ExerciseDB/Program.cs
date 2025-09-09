@@ -26,16 +26,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IDbConnection>((s) =>
 {
-    var connString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
-    if (string.IsNullOrEmpty(connString))
-        throw new Exception("AZURE_SQL_CONNECTIONSTRING environment variable not set!");
-    
-    Console.WriteLine($"Connection string: {connString}");
+    var raw = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb");
+    if (string.IsNullOrEmpty(raw))
+        throw new InvalidOperationException("MYSQLCONNSTR_localdb environment variable is not set.");
+    string connString = raw.Replace("Data Source=", "Server=");
     // IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
     IDbConnection conn = new MySqlConnection(connString);
-    Console.WriteLine($"This worked.");
-    conn.Open();
 
+    conn.Open();
     return conn;
 });
 
