@@ -27,6 +27,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDbConnection>((s) =>
 {
     var raw = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb");
+    Console.WriteLine(raw);
     if (string.IsNullOrEmpty(raw))
         throw new InvalidOperationException("MYSQLCONNSTR_localdb environment variable is not set.");
     string connString = raw.Replace("Data Source=", "Server=");
