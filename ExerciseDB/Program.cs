@@ -6,8 +6,7 @@ using ExerciseDB;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
-using Microsoft.Data.SqlClient;
+
 
 
 
@@ -24,16 +23,32 @@ builder.Services.AddControllersWithViews();
 //     return conn;
 // });
 
+
 builder.Services.AddScoped<IDbConnection>((s) =>
 {
-    var connString = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+    var connString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
     if (string.IsNullOrEmpty(connString))
         throw new Exception("AZURE_SQL_CONNECTIONSTRING environment variable not set!");
-//    IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
-    IDbConnection conn = new SqlConnection(connString);
+    
+    Console.WriteLine($"Connection string: {connString}");
+    // IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
+    IDbConnection conn = new MySqlConnection(connString);
+    Console.WriteLine($"This worked.");
     conn.Open();
+
     return conn;
 });
+
+// builder.Services.AddScoped<IDbConnection>(s =>
+// {
+//     var config = s.GetRequiredService<IConfiguration>();
+//     var connString = config.GetConnectionString("DefaultConnection");
+//     if (string.IsNullOrEmpty(connString))
+//         throw new Exception("DefaultConnection not set in Azure!");
+//     var conn = new SqlConnection(connString);
+//     conn.Open();
+//     return conn;
+// });
 
 
 builder.Services.AddTransient<IWorkoutRepository, WorkoutRepository>();

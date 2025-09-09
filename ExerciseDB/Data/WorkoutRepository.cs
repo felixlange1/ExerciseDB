@@ -3,6 +3,7 @@ using System.Text;
 using ExerciseDB.Models;
 using Dapper;
 
+using MySql.Data.MySqlClient;
 
 namespace ExerciseDB;
 
@@ -13,9 +14,12 @@ public class WorkoutRepository : IWorkoutRepository
     public WorkoutRepository(IDbConnection connection)
     {
         _connection = connection;
+        if (_connection == null)
+            throw new Exception("Injected connection is null!");
+        Console.WriteLine($"Connection is open");
     }
 
-    
+
     // Retrieves a workout by ID, including its associated sets. Uses SQL stored procedures.
     public Workout GetWorkout(int id)
     {
@@ -40,13 +44,14 @@ public class WorkoutRepository : IWorkoutRepository
         return workout;
     }
 
-    
+
     // Retrieves all workouts, optionally filtered by a search string and sorted by the specified criteria.
     public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString)
     {
         // Standard Query to get all workouts:
-        var query = new StringBuilder("SELECT * FROM Workouts");
-        
+        var query = new StringBuilder(
+            "SELECT WorkoutID AS WorkoutId, ExerciseName, WorkoutDate, Notes FROM dbo.Workouts");
+
         // Adds searchString if a searchString exists:
         if (searchString != null)
         {
@@ -74,17 +79,21 @@ public class WorkoutRepository : IWorkoutRepository
         }
 
         IEnumerable<Workout> workouts;
-        
+
         // Calls database two different ways, depending on whether there's a searchString or not:
         if (searchString != null)
         {
-            workouts = _connection.Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
+            workouts = _connection
+                .Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
         }
         else
         {
             workouts = _connection.Query<Workout>(query.ToString()).ToList();
         }
-        
+
+        Console.WriteLine("Got workouts");
+
+
         // Gets the sets from the database (using a stored procedure):
         foreach (var workout in workouts)
         {
@@ -92,7 +101,7 @@ public class WorkoutRepository : IWorkoutRepository
                 "dbo.GetWorkoutSets",
                 new { p_workoutId = workout.WorkoutId },
                 commandType: CommandType.StoredProcedure).ToList();
-            
+
             // GETTING SETS WITHOUT USING A STORED PROCEDURE:
             // var sets = _connection.Query<WorkoutSet>("SELECT * FROM workout_sets WHERE WorkoutId = @workoutId", new { workoutId = workout.WorkoutId }).ToList();
             workout.Sets = sets;
@@ -101,9 +110,10 @@ public class WorkoutRepository : IWorkoutRepository
         return workouts;
     }
 
-    // Updates an existing workout and its sets. Inserts any new sets and updates existing ones.
+
+// Updates an existing workout and its sets. Inserts any new sets and updates existing ones.
     public void UpdateWorkout(Workout workout)
-    {
+    { 
         _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", 
             new
             {
