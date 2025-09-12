@@ -7,8 +7,8 @@ html {
 
 /*MEDIA QUERIES:*/
 
-/* Small devices (phones, less than 576px) */
-@media (max-width: 575px) {
+/* Small devices (phones, less than 767px) */
+@media (max-width: 767px) {
   .navbar-brand {
     font-size: 1.2rem;
   }
@@ -26,6 +26,56 @@ html {
   #search-input {
     width: 100%;
   }
+
+  .workouts-table thead {
+    display: none;
+  }
+  
+  .workouts-table,
+  .workouts-table tbody,
+  .workouts-table tr,
+  .workouts-table td {
+    display: block;
+
+  }
+
+  .workouts-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .workouts-table td {
+    display: block;
+    padding: 0.5rem;
+    border: none !important;
+  }
+
+  /* Add labels before each td using attr(data-label) */
+  .workouts-table td::before {
+    content: attr(data-label) ":" "\00a0";
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    color: #555;
+  }
+  
+  .set-weight::after {
+    content: attr(data-reps);
+  }
+  
+  .set-reps {
+    display: none !important;
+  }
+  
+  
+
+.edit-button--text {
+    display: none;
+  }
 }
 
 
@@ -42,6 +92,9 @@ html {
   }
   #search-input {
     width: 100%;
+  }
+  .edit-button--text {
+    display: none;
   }
 }
 
@@ -239,12 +292,17 @@ table td, table th {
 
 
 .card {
-
+  max-width: 100%;
+  width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
   transition: transform 0.2s ease;
 }
 
+.card-body {
+  max-width: 100%;
+  width: 100%;
+}
 
 .btn-primary:hover {
   background-color: #0056b3;
@@ -259,11 +317,19 @@ td:last-child {
   text-align: right;
 }
 
+.table {
+  max-width: 100%;
+  width: 100%;
+}
+
 .table-container {
   background-color: #fff;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .set-template {
