@@ -20,11 +20,11 @@
 <div class="form-container">
     <form class="row justify-content-center" method="get" asp-controller="Exercise" asp-action="Index">
     
-        <div class="col-10 position-relative">
+        <div class="col-12 col-sm-10 position-relative mb-2">
             <input type="text" name="searchTerm" data-mode="full" id="search-input" class="exercise-search form-control form-control-lg" placeholder="Search for exercises"/>
             <div id="search-suggestions"></div>
             </div>
-        <div class="col-2 col-md-auto">
+        <div class="col-12 col-sm-2 d-flex justify-content-center">
             <button id="search-btn" class="btn btn-primary btn-lg" type="submit">Search</button>
         </div>
     </form>

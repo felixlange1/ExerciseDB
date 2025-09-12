@@ -23,10 +23,7 @@ html {
     width: 90%;
     max-width: 300px;
   }
-  #search-input {
-    width: 100%;
-  }
-
+  
   .workouts-table thead {
     display: none;
   }
@@ -55,8 +52,12 @@ html {
   }
 
   /* Add labels before each td using attr(data-label) */
-  .workouts-table td::before {
+  .set-weight::before {
     content: attr(data-label) ":" "\00a0";
+
+  }
+  
+  .workouts-table td::before {
     font-weight: 600;
     display: inline-block;
     margin-bottom: 0.25rem;
