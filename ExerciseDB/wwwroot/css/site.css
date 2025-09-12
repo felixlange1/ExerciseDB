@@ -5,124 +5,6 @@ html {
   font-size: 14px;
 }
 
-/*MEDIA QUERIES:*/
-
-/* Small devices (phones, less than 767px) */
-@media (max-width: 767px) {
-  .navbar-brand {
-    font-size: 1.2rem;
-  }
-  .nav-link {
-    font-size: 0.9rem;
-  }
-  footer .container {
-    text-align: center;
-    font-size: 0.8rem;
-  }
-  .form-container {
-    width: 90%;
-    max-width: 300px;
-  }
-  
-  .workouts-table thead {
-    display: none;
-  }
-  
-  .workouts-table,
-  .workouts-table tbody,
-  .workouts-table tr,
-  .workouts-table td {
-    display: block;
-
-  }
-
-  .workouts-table tr {
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 0.75rem;
-    padding: 0.75rem;
-    background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  }
-
-  .workouts-table td {
-    display: block;
-    padding: 0.5rem;
-    border: none !important;
-  }
-
-  /* Add labels before each td using attr(data-label) */
-  .set-weight::before {
-    content: attr(data-label) ":" "\00a0";
-
-  }
-  
-  .workouts-table td::before {
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 0.25rem;
-    color: #555;
-  }
-  
-  .set-weight::after {
-    content: attr(data-reps);
-  }
-  
-  .set-reps {
-    display: none !important;
-  }
-  
-  
-
-.edit-button--text {
-    display: none;
-  }
-}
-
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) and (max-width: 991px) {
-  html {
-    font-size: 16px;
-  }
-  .nav-link {
-    padding: 0.5rem 0.75rem;
-  }
-  .form-container {
-    width: 600px;
-  }
-  #search-input {
-    width: 100%;
-  }
-  .edit-button--text {
-    display: none;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-  .navbar-brand {
-    font-size: 1.5rem;
-  }
-  .form-container {
-    width: 700px;
-  }
-  #search-input {
-    width: 100%;
-  }
-}
-
-
-body {
-  /*background: url('/images/exercises.jpg') no-repeat center center fixed;*/
-  /*background-color: rgba(173, 216, 230, 0.6);*/
-  /*background-blend-mode: lighten;*/
-  margin-bottom: 60px;
-  
-}
- 
-
-
   
 /*General*/
 
@@ -341,3 +223,127 @@ td:last-child {
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
+/*MEDIA QUERIES:*/
+
+/* Small devices (phones, less than 767px) */
+@media (max-width: 767px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+  }
+  footer .container {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  .form-container {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .exercise-link {
+    text-decoration: underline;
+    color: #226199;
+    font-weight: bold;
+  }
+
+  .workouts-table thead {
+    display: none;
+  }
+
+  .workouts-table,
+  .workouts-table tbody,
+  .workouts-table tr,
+  .workouts-table td {
+    display: block;
+
+  }
+
+  .workouts-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .workouts-table td {
+    display: block;
+    padding: 0.5rem;
+    border: none !important;
+  }
+
+  /* Add labels before each td using attr(data-label) */
+  .set-weight::before {
+    content: attr(data-label) ":" "\00a0";
+
+  }
+
+  .workouts-table td::before {
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    color: #555;
+  }
+
+  .set-weight::after {
+    content: attr(data-reps);
+  }
+
+  .set-reps {
+    display: none !important;
+  }
+
+
+
+  .edit-button--text {
+    display: none;
+  }
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+  html {
+    font-size: 16px;
+  }
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+  }
+  .form-container {
+    width: 100%;
+  }
+  #search-input {
+    width: 100%;
+  }
+  .edit-button--text {
+    display: none;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  .form-container {
+    width: 700px;
+  }
+  #search-input {
+    width: 100%;
+  }
+}
+
+
+body {
+  /*background: url('/images/exercises.jpg') no-repeat center center fixed;*/
+  /*background-color: rgba(173, 216, 230, 0.6);*/
+  /*background-blend-mode: lighten;*/
+  margin-bottom: 60px;
+
+}
+ 
