@@ -28,10 +28,13 @@
 </nav>
 <div class="card rounded-3">
     <div class="card-body">
-        <h2 class="card-title">@Model.ExerciseName</h2>
+        <div class="workout-header">
+            <h2 class="card-title">@Model.ExerciseName</h2>
+       </div>
         <p class="lead">@Model.WorkoutDate.ToString("yyyy-MM-dd")</p>
-        <div class="table-container">
-            <table class="table table-sm table-borderless">
+
+        <div class="table-container table-responsive">
+            <table class="table table-sm table-borderless workouts-table">
                 <thead>
                 <tr>
                     <th rowspan="2" class="align-middle">Exercise</th>
@@ -39,7 +42,7 @@
                     {
                         <th class="text-center" colspan="2">Set @i</th>
                     }
-                    
+
                     <th rowspan="2"></th>
                 </tr>
                 <tr>
@@ -50,15 +53,15 @@
                     }
                 </tr>
                 </thead>
-    
+
                 <tr class="align-middle">
-                    <td>@Model.ExerciseName</td>
+                    <td class="exercise-name">@Model.ExerciseName</td>
                     @for (int i = 0; i < Model.Sets.Count(); i++)
                     {
                         if (i < Model.Sets.Count())
                         {
-                            <td>@Model.Sets[i].Weight</td>
-                            <td>@Model.Sets[i].Reps</td>
+                            <td class="set-weight" data-label="Set @(i + 1)" data-reps="@(Model.Sets[i].Reps != null ? $" x {Model.Sets[i].Reps}" : "")">@Model.Sets[i].Weight</td>
+                            <td class="set-reps" data-label="Reps">@Model.Sets[i].Reps</td>
                         }
                         else
                         {
@@ -66,13 +69,13 @@
                             <td></td>
                         }
                     }
-                    
+
                     <td class="text-end">
                         <div class="d-flex justify-content-end gap-1">
                             <a class="btn btn-outline-secondary btn-sm" href="/Workout/UpdateWorkout/@Model.WorkoutId">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil me-1" viewBox="0 0 16 16">
                                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-                                </svg> Edit</a>
+                                </svg><span class="edit-button--text"> Edit</span></a>
                             @using (Html.BeginForm("DeleteWorkout", "Workout", FormMethod.Post))
                             {
                                 <input type="hidden" name="Id" value="@Model.WorkoutId"/>
@@ -88,19 +91,19 @@
                             }
                         </div>
                     </td>
-                
+
                 </tr>
             </table>
-            
-                
+
+
         </div>
-        <div class="card col-5 mt-5 ms-4">
-            <div class="card-header">
+        <div class="card mt-5 notes-section">
+            <div class="card-header ">
                 Notes
             </div>
 
             <div class="card-body">
-                <blockquote class="blockquote">
+                <blockquote class="blockquote mb-0">
                     <p>@Model.Notes</p>
 
                 </blockquote>

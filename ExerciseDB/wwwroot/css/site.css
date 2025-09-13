@@ -224,6 +224,11 @@ td:last-child {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.notes-section {
+  width: 60%;
+  max-width: 500px;
+}
+
 
 /*MEDIA QUERIES:*/
 
@@ -250,6 +255,10 @@ td:last-child {
     font-weight: bold;
   }
 
+  .exercise-name {
+    font-weight: bold;
+  }
+  
   .workouts-table thead {
     display: none;
   }
@@ -275,6 +284,10 @@ td:last-child {
     display: block;
     padding: 0.5rem;
     border: none !important;
+  }
+  
+  .workout-header {
+    display: none;
   }
 
   /* Add labels before each td using attr(data-label) */
