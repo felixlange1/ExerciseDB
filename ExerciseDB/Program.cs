@@ -6,12 +6,24 @@ using ExerciseDB;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
-
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add EF Core with MySQL for Identity
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("IdentityConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("IdentityConnection"))));
+
+// Add Identity services
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -82,17 +94,11 @@ if (!app.Environment.IsDevelopment())
 
 }
 
-// app.UseSwagger();
-// app.UseSwaggerUI(c =>
-// {
-//     c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExerciseDB v1");
-//     c.RoutePrefix = "swagger";
-// });
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
