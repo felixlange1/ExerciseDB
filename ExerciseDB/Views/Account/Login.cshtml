@@ -1,0 +1,20 @@
+@model LoginViewModel
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div>
+    <form asp-action="Login" method="post">
+        <input asp-for="Email" type="email" class="form-control" placeholder="Email" />
+        <input asp-for="Password" type="password" class="form-control" placeholder="Email" />
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+</body>
+</html>

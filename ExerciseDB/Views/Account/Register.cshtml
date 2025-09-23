@@ -1,0 +1,20 @@
+@model RegisterViewModel
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Register Your Account</title>
+</head>
+<body>
+<div>
+    <form asp-action="Register" method="post">
+        <input asp-for="Email" type="email" placeholder="Email" class="form-control" />
+        <input asp-for="Password" type="password" placeholder="Password" class="form-control" />
+        <input asp-for="ConfirmPassword" tpye="password" placeholder="Confirm password" class="form-control" />
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+</body>
+</html>
