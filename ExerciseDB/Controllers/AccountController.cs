@@ -14,13 +14,15 @@ public class AccountController : Controller
         _userManager = userManager;
         _signInManager = signInManager;
     }
-    
-    
+
+
+    [HttpGet]
     public IActionResult Register()
     {
         return View();
     }
-    
+
+    [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -40,11 +42,13 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
+    [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid) return View(model);

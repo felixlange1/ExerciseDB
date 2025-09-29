@@ -13,10 +13,34 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add EF Core with MySQL for Identity
+// Determine connection string (local vs Azure):
+var azureConn = builder.Configuration.GetConnectionString("MYSQLCONNSTR_localdb");
+string connString;
+if (!string.IsNullOrEmpty(azureConn))
+{
+    connString = azureConn;
+}
+
+else
+{
+    connString = builder.Configuration.GetConnectionString("exercise");
+}
+
+
+// For EF Core / Identity:
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("IdentityConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("IdentityConnection"))));
+    options.UseMySql(connString, ServerVersion.AutoDetect(connString)));
+
+// For Dapper:
+
+builder.Services.AddScoped<IDbConnection>((s) =>
+{
+    // IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
+    IDbConnection conn = new MySqlConnection(connString);
+    conn.Open();
+    return conn;
+});
+
 
 // Add Identity services
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -36,39 +60,7 @@ builder.Services.AddControllersWithViews();
 // });
 
 
-builder.Services.AddScoped<IDbConnection>((s) =>
-{
-    var azureConn = builder.Configuration.GetConnectionString("MYSQLCONNSTR_localdb");
 
-    string connString;
-
-    if (!string.IsNullOrEmpty(azureConn))
-    {
-        connString = azureConn;
-    }
-
-    else
-    {
-        connString = builder.Configuration.GetConnectionString("exercise");
-    }
-    
-    // IDbConnection conn = new SqlConnection(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING"));
-    IDbConnection conn = new MySqlConnection(connString);
-
-    conn.Open();
-    return conn;
-});
-
-// builder.Services.AddScoped<IDbConnection>(s =>
-// {
-//     var config = s.GetRequiredService<IConfiguration>();
-//     var connString = config.GetConnectionString("DefaultConnection");
-//     if (string.IsNullOrEmpty(connString))
-//         throw new Exception("DefaultConnection not set in Azure!");
-//     var conn = new SqlConnection(connString);
-//     conn.Open();
-//     return conn;
-// });
 
 
 builder.Services.AddTransient<IWorkoutRepository, WorkoutRepository>();

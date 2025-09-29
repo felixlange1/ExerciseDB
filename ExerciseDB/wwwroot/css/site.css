@@ -24,6 +24,11 @@ html {
   padding: 1rem;
 }
 
+.login-wrapper {
+margin-top: 20vh;
+  padding: 1rem;
+}
+
 .exercise-link {
   display: inline-block;
   text-decoration: none;

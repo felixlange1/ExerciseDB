@@ -8,13 +8,34 @@
     <title>Register Your Account</title>
 </head>
 <body>
-<div>
-    <form asp-action="Register" method="post">
-        <input asp-for="Email" type="email" placeholder="Email" class="form-control" />
-        <input asp-for="Password" type="password" placeholder="Password" class="form-control" />
-        <input asp-for="ConfirmPassword" tpye="password" placeholder="Confirm password" class="form-control" />
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
+<div class="container-fluid vh-100">
+    <div class="row vh-100 justify-content-center align-items-start pt-5">
+        <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+            <div class="card rounded-3 login-wrapper">
+                <div class="card-body">
+                    <h2 class="ps-2 text-center mb-4">Register</h2>
+                    <div class="container">
+                        <div class="row mb-3">
+                            <form asp-controller="Account" asp-action="Register" method="post">
+                                <div class="mb-3">
+                                    <input asp-for="Email" type="email" placeholder="Email" class="form-control"/>
+                                </div>
+                                <div class="mb-3">
+                                    <input asp-for="Password" type="password" placeholder="Password" class="form-control"/>
+                                </div>
+                                <div class="mb-3">
+                                    <input asp-for="ConfirmPassword" type="password" placeholder="Confirm password" class="form-control"/>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
