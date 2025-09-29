@@ -1,14 +1,18 @@
 using ExerciseDB.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExerciseDB.Controllers;
 
 // Controller responsible for handling workout-related views and actions, including create, read, update, and delete operations.
+[Authorize]
 public class WorkoutController : Controller
 {
     private readonly IWorkoutRepository repo;
     private readonly HttpClient _client;
     private readonly string _apiKey;
+    private readonly UserManager<IdentityUser> _userManager;
     
     public WorkoutController(IWorkoutRepository repo)
     {
