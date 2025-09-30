@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ExerciseDB.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,8 @@ public class WorkoutController : Controller
     // Displays a list of all workouts, optionally sorted and/or filtered by a search string.
     public IActionResult Index(string sortBy, string searchString)
     {
-        var workouts = repo.GetAllWorkouts(sortBy, searchString);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var workouts = repo.GetAllWorkouts(sortBy, searchString, userId);
         return View(workouts);
     }
     
@@ -77,8 +79,11 @@ public class WorkoutController : Controller
     public IActionResult CreateWorkout(string exerciseName)
     {
         // Passes selected exercise name to the view using ViewBag, for pre-filling the exercise name field:
-        ViewBag.ExerciseName = exerciseName; 
-        
+        if (exerciseName != null)
+        {
+            ViewBag.ExerciseName = exerciseName;
+        }
+
         var workout = new Workout();
 
         return View(workout);

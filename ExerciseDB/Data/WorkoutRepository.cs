@@ -46,16 +46,20 @@ public class WorkoutRepository : IWorkoutRepository
 
 
     // Retrieves all workouts, optionally filtered by a search string and sorted by the specified criteria.
-    public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString)
+    public IEnumerable<Workout> GetAllWorkouts(string sortBy, string searchString, string userId)
     {
         // Standard Query to get all workouts:
         var query = new StringBuilder(
-            "SELECT WorkoutID AS WorkoutId, ExerciseName, WorkoutDate, Notes FROM Workouts");
+            "SELECT WorkoutID AS WorkoutId, ExerciseName, WorkoutDate, Notes FROM Workouts WHERE UserId = @userId");
 
+        var parameters = new DynamicParameters();
+        parameters.Add("@userId", userId);
+        
         // Adds searchString if a searchString exists:
         if (searchString != null)
         {
-            query.Append(" WHERE (ExerciseName) LIKE @searchString");
+            query.Append(" AND (ExerciseName) LIKE @searchString");
+            parameters.Add("@searchString", $"%{searchString.ToLower()}%");
         }
 
         // Adds how results should be sorted:
@@ -78,18 +82,20 @@ public class WorkoutRepository : IWorkoutRepository
                 break;
         }
 
-        IEnumerable<Workout> workouts;
+        // IEnumerable<Workout> workouts;
 
         // Calls database two different ways, depending on whether there's a searchString or not:
-        if (searchString != null)
-        {
-            workouts = _connection
-                .Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
-        }
-        else
-        {
-            workouts = _connection.Query<Workout>(query.ToString()).ToList();
-        }
+        // if (searchString != null)
+        // {
+        //     workouts = _connection
+        //         .Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
+        // }
+        // else
+        // {
+        //     workouts = _connection.Query<Workout>(query.ToString()).ToList();
+        // }
+        
+        var workouts = _connection.Query<Workout>(query.ToString(), parameters).ToList();
 
         Console.WriteLine("Got workouts");
 
