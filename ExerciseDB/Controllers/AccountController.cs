@@ -26,6 +26,11 @@ public class AccountController : Controller
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
+        
+        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+        {
+            Console.WriteLine(error.ErrorMessage);
+        }
 
         var user = new IdentityUser { UserName = model.Email, Email = model.Email };
         var result = await _userManager.CreateAsync(user, model.Password);
@@ -57,7 +62,7 @@ public class AccountController : Controller
         
         if (result.Succeeded) return RedirectToAction("Index", "Home");
         
-        ModelState.AddModelError("", "Invalid login attempt.");
+        ModelState.AddModelError("", "Invalid email or password.");
         return View(model);
     }
 
