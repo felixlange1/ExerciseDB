@@ -21,11 +21,12 @@ public class WorkoutRepository : IWorkoutRepository
 
 
     // Retrieves a workout by ID, including its associated sets. Uses SQL stored procedures.
-    public Workout GetWorkout(int id)
+    public Workout GetWorkout(int id, string userId)
     {
+        Console.WriteLine($"UserId is '{userId}'");
         using var workoutsWithSets = _connection.QueryMultiple(
             "GetWorkoutWithSets", 
-            new { p_workoutId = id },
+            new { p_workoutId = id, p_userId = userId },
             commandType: CommandType.StoredProcedure);
         
         // WITHOUT STORED PROCEDURES:
@@ -81,19 +82,6 @@ public class WorkoutRepository : IWorkoutRepository
                 query.Append(" ORDER BY WorkoutDate DESC");
                 break;
         }
-
-        // IEnumerable<Workout> workouts;
-
-        // Calls database two different ways, depending on whether there's a searchString or not:
-        // if (searchString != null)
-        // {
-        //     workouts = _connection
-        //         .Query<Workout>(query.ToString(), new { searchString = $"%{searchString.ToLower()}%" }).ToList();
-        // }
-        // else
-        // {
-        //     workouts = _connection.Query<Workout>(query.ToString()).ToList();
-        // }
         
         var workouts = _connection.Query<Workout>(query.ToString(), parameters).ToList();
 
@@ -105,7 +93,7 @@ public class WorkoutRepository : IWorkoutRepository
         {
             var sets = _connection.Query<WorkoutSet>(
                 "GetWorkoutSets",
-                new { p_workoutId = workout.WorkoutId },
+                new { p_workoutId = workout.WorkoutId, p_userId = userId },
                 commandType: CommandType.StoredProcedure).ToList();
 
             // GETTING SETS WITHOUT USING A STORED PROCEDURE:
@@ -118,15 +106,16 @@ public class WorkoutRepository : IWorkoutRepository
 
 
 // Updates an existing workout and its sets. Inserts any new sets and updates existing ones.
-    public void UpdateWorkout(Workout workout)
+    public void UpdateWorkout(Workout workout, string userId)
     { 
-        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId", 
+        _connection.Execute("UPDATE Workouts SET ExerciseName = @ExerciseName, WorkoutDate = @workoutDate, Notes = @Notes WHERE WorkoutId = @WorkoutId AND UserId = @userId", 
             new
             {
                 ExerciseName = workout.ExerciseName,
                 WorkoutDate = workout.WorkoutDate,
                 Notes = workout.Notes,
-                WorkoutId = workout.WorkoutId
+                WorkoutId = workout.WorkoutId,
+                UserId = userId
             });
         foreach (var set in workout.Sets)
         {
@@ -136,26 +125,28 @@ public class WorkoutRepository : IWorkoutRepository
             if (set.SetId > 0)
             {
                 _connection.Execute(
-                    "UPDATE workout_sets SET SetNumber = @SetNumber, Weight = @Weight, Reps = @Reps WHERE SetId = @SetId AND WorkoutId = @WorkoutId",
+                    "UPDATE workout_sets ws INNER JOIN workouts w ON ws.WorkoutId = w.WorkoutId SET ws.SetNumber = @SetNumber, ws.Weight = @Weight, ws.Reps = @Reps WHERE ws.SetId = @SetId AND ws.WorkoutId = @WorkoutId AND w.UserId = @UserId",
                     new
                     {
                         SetNumber = set.SetNumber,
                         Weight = set.Weight,
                         Reps = set.Reps,
                         SetId = set.SetId,
-                        WorkoutId = workout.WorkoutId
+                        WorkoutId = workout.WorkoutId,
+                        UserId = userId
                     });
             }
             else
             {
                 _connection.Execute(
-                    "INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) VALUES (@WorkoutID, @SetNumber, @Weight, @Reps);",
+                    "INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) SELECT @WorkoutID, @SetNumber, @Weight, @Reps FROM workouts WHERE WorkoutId = @WorkoutId AND UserId = @UserId;",
                     new
                     {
                         workoutID = workout.WorkoutId,
                         setNumber = set.SetNumber,
                         weight = set.Weight,
-                        reps = set.Reps
+                        reps = set.Reps,
+                        UserId = userId
                     });
             }
             
@@ -164,14 +155,14 @@ public class WorkoutRepository : IWorkoutRepository
     
     
     // Creates a new workout and its associated sets, skipping any sets with zero reps or weight.
-    public void CreateWorkout(Workout workout)
+    public void CreateWorkout(Workout workout, string userId)
     {
         workout.Sets = workout.Sets.Where(set => set.Reps > 0 && set.Weight > 0).ToList();
         _connection.Execute(
-            "INSERT INTO workouts (ExerciseName, WorkoutDate, Notes) VALUES (@exerciseName, @workoutdate, @notes);",
+            "INSERT INTO workouts (ExerciseName, WorkoutDate, Notes, UserId) VALUES (@ExerciseName, @WorkoutDate, @Notes, @UserId);",
             new
             {
-                exerciseName = workout.ExerciseName, sets = workout.Sets, workoutdate = workout.WorkoutDate, notes = workout.Notes
+                exerciseName = workout.ExerciseName, workoutDate = workout.WorkoutDate, notes = workout.Notes, UserId = userId
             });
         
         // Grabs last created workout ID to then create corresponding sets:
@@ -179,19 +170,19 @@ public class WorkoutRepository : IWorkoutRepository
 
         foreach (var set in workout.Sets)
         {
-            _connection.Execute("INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) VALUES (@WorkoutID, @SetNumber, @Weight, @Reps);",
+            _connection.Execute("INSERT INTO workout_sets (WorkoutID, SetNumber, Weight, Reps) SELECT @WorkoutID, @SetNumber, @Weight, @Reps FROM workouts WHERE WorkoutId = @WorkoutId AND UserId = @UserId;",
             new
             {
-                workoutID = workoutId, setNumber = set.SetNumber, weight = set.Weight, reps = set.Reps
+                workoutID = workoutId, setNumber = set.SetNumber, weight = set.Weight, reps = set.Reps, UserId = userId
             });
         }
     }
 
     // Deletes a workout and all of its associated sets from the database, using SQL stored procedures.
-    public void DeleteWorkout(int id)
+    public void DeleteWorkout(int id, string userId)
     {
         _connection.Execute("DeleteWorkoutAndSets",
-            new { p_workoutId = id },
+            new { p_workoutId = id, p_userId = userId },
             commandType: CommandType.StoredProcedure);
         
         // WITHOUT STORED PROCEDURES:
@@ -200,10 +191,10 @@ public class WorkoutRepository : IWorkoutRepository
     }
 
     // Deletes a single set from the database using its set ID, using stored procedures.
-    public void DeleteSet(int id)
+    public void DeleteSet(int id, string userId)
     {
         _connection.Execute("DeleteSet",
-            new { p_setId = id },
+            new { p_setId = id, p_userId = userId },
             commandType: CommandType.StoredProcedure);
         
         // WITHOUT STORED PROCEDURES:    

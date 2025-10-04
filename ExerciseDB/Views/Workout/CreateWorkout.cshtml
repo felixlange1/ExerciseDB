@@ -40,8 +40,7 @@
                             @* This container is used by JS (search.js) to display live search results: *@
                             <div id="search-suggestions"></div>
                             
-                            @* Uses @ViewBag to pass in exercise name from controller, if any:*@
-                            <input asp-for="ExerciseName" type="text" name="ExerciseName" value="@ViewBag.ExerciseName" id="exercise-name" data-mode="form" class="exercise-search form-control"/>
+                            <input asp-for="ExerciseName" type="text" name="ExerciseName"  id="exercise-name" data-mode="form" class="exercise-search form-control"/>
                         </div>
 
                         <div id="sets-container">

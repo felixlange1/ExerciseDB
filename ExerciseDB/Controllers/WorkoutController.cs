@@ -14,6 +14,9 @@ public class WorkoutController : Controller
     private readonly HttpClient _client;
     private readonly string _apiKey;
     private readonly UserManager<IdentityUser> _userManager;
+
+
+    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
     
     public WorkoutController(IWorkoutRepository repo)
     {
@@ -24,8 +27,7 @@ public class WorkoutController : Controller
     // Displays a list of all workouts, optionally sorted and/or filtered by a search string.
     public IActionResult Index(string sortBy, string searchString)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var workouts = repo.GetAllWorkouts(sortBy, searchString, userId);
+        var workouts = repo.GetAllWorkouts(sortBy, searchString, UserId);
         return View(workouts);
     }
     
@@ -33,7 +35,7 @@ public class WorkoutController : Controller
     // Displays details for a single workout, including its sets.
     public IActionResult ViewWorkout(int id)
     {
-        var workout = repo.GetWorkout(id);
+        var workout = repo.GetWorkout(id, UserId);
         return View(workout);
     }
 
@@ -41,7 +43,7 @@ public class WorkoutController : Controller
     // Loads the update form for a specific workout by ID.
     public IActionResult UpdateWorkout(int id)
     {
-        Workout workout = repo.GetWorkout(id);
+        Workout workout = repo.GetWorkout(id, UserId);
         if (workout == null)
         {
             return NotFound();
@@ -67,24 +69,24 @@ public class WorkoutController : Controller
         {
             foreach (var id in DeletedSetIds)
             {
-                repo.DeleteSet(id);
+                repo.DeleteSet(id, UserId);
             }
         }
 
-        repo.UpdateWorkout(workout);
+        repo.UpdateWorkout(workout, UserId);
         return RedirectToAction("ViewWorkout", new { id = workout.WorkoutId });
     }
 
     // Loads the form for creating a new workout, optionally pre-filling the exercise name.
     public IActionResult CreateWorkout(string exerciseName)
     {
-        // Passes selected exercise name to the view using ViewBag, for pre-filling the exercise name field:
+        var workout = new Workout();
+        
+        // Passes selected exercise name to the view, for pre-filling the exercise name field:
         if (exerciseName != null)
         {
-            ViewBag.ExerciseName = exerciseName;
+            workout.ExerciseName = exerciseName;
         }
-
-        var workout = new Workout();
 
         return View(workout);
     }
@@ -93,14 +95,14 @@ public class WorkoutController : Controller
     public IActionResult CreateWorkoutToDataBase(Workout workoutToCreate)
     {
    
-        repo.CreateWorkout(workoutToCreate);
+        repo.CreateWorkout(workoutToCreate, UserId);
         return RedirectToAction("Index");
     }
 
     // Deletes a workout and redirects to the index view.
     public IActionResult DeleteWorkout(int id)
     {
-        repo.DeleteWorkout(id);
+        repo.DeleteWorkout(id, UserId);
         return RedirectToAction("Index");
     }
     
